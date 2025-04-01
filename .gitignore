@@ -16,3 +16,4 @@ bin/
 .vs/
 .editorconfig
 
+/Netscaler OTP Admin.sln
