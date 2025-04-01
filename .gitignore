@@ -1,0 +1,18 @@
+# Ignore all .log files
+*.log
+TODO.md
+
+# Ignore all files in any directory named temp
+temp/
+
+# Ignore certificates
+*.pfx
+
+# Ignore some project files
+removed/
+publish/
+obj/
+bin/
+.vs/
+.editorconfig
+
