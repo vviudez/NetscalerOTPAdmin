@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -19,7 +20,9 @@ namespace NetscalerOTPAdmin
 {
     public partial class frmShowQR : Form
     {
-		public string DeviceName { get; set; }
+        CultureInfo CurrentCulture = new CultureInfo("es-ES");
+
+        public string DeviceName { get; set; }
 		public string Seed { get; set; }
 
 
@@ -31,7 +34,7 @@ namespace NetscalerOTPAdmin
 
 		private string baseDir;
         private string userAppDir;
-        public Point pntLocation;
+        //public Point pntLocation;
 
         // Get settings from user.config
         private string getUserSetting(KeyValueConfigurationCollection col, string settingName)
@@ -72,22 +75,32 @@ namespace NetscalerOTPAdmin
 			this.Close();
         }
 
-		private Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
-		{
-			// BitmapImage bitmapImage = new BitmapImage(new Uri("../Images/test.png", UriKind.Relative));
+        private static Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
+        {
+            // BitmapImage bitmapImage = new BitmapImage(new Uri("../Images/test.png", UriKind.Relative));
+            System.Drawing.Bitmap bitmap = null;
 
-			using (MemoryStream outStream = new MemoryStream())
-			{
-				BitmapEncoder enc = new BmpBitmapEncoder();
-				enc.Frames.Add(BitmapFrame.Create(bitmapImage));
-				enc.Save(outStream);
-				System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(outStream);
+            try
+            {
+                using (MemoryStream outStream = new MemoryStream())
+                {
+                    BitmapEncoder enc = new BmpBitmapEncoder();
+                    enc.Frames.Add(BitmapFrame.Create(bitmapImage));
+                    enc.Save(outStream);
+                    bitmap = new Bitmap(outStream);
 
-				return new Bitmap(bitmap);
-			}
-		}
+                    return new Bitmap(bitmap);
+                }
+            }
+            catch
+            {
+                // Dispose bitmap if an exception occurs
+                if (bitmap != null) bitmap.Dispose();
+                throw;
+            }
+        }
 
-		private void frmEditDevice_Shown(object sender, EventArgs e)
+        private void frmEditDevice_Shown(object sender, EventArgs e)
         {
 			lblDevice.Text = "Device: " + DeviceName;
 			tbSeed.Text = Seed;
@@ -103,7 +116,7 @@ namespace NetscalerOTPAdmin
 				Base64QRCode qrCodeB64 = new Base64QRCode(qrCodeData);
 				qrCodeImageAsBase64 = qrCodeB64.GetGraphic(20, Color.Black, Color.White, true, imgType);
 
-				using (qrCode)
+                using (qrCode)
 				{
 					var qrCodeImage = qrCode.GetGraphic(20);
 
@@ -120,9 +133,9 @@ namespace NetscalerOTPAdmin
 						pbQRCode.Image = BitmapImage2Bitmap(bitmapImage);
                     }
 				}
-
-				qrCodeB64.Dispose();
-			}
+                qrCode.Dispose();
+                qrCodeB64.Dispose();
+            }
 			qrGenerator.Dispose();
 		}
 
@@ -154,12 +167,18 @@ namespace NetscalerOTPAdmin
 			{
 				sfd?.Dispose();
 			}
-
         }
 
-		private void frmShowQR_Load(object sender, EventArgs e)
-		{
-			this.Location = pntLocation;
-		}
-	}
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            // Dispose of the image when the form is closed
+            if (pbQRCode.Image != null)
+            {
+                pbQRCode.Image.Dispose();
+                pbQRCode.Image = null;
+            }
+
+            base.OnFormClosed(e);
+        }
+    }
 }

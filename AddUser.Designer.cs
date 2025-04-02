@@ -218,7 +218,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmAddUser";
             this.Text = "Add OTP seed to new User";
-            this.Load += new System.EventHandler(this.frmAddUser_Load);
             this.Shown += new System.EventHandler(this.frmAddUser_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.pbQRCode)).EndInit();
             this.ResumeLayout(false);

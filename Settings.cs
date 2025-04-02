@@ -304,10 +304,21 @@ namespace NetscalerOTPAdmin
                     hash = System.Convert.ToBase64String(hmacsha256.Hash);
                 }
             }
+            catch (ArgumentNullException ex)
+            {
+                //throw e;
+                MessageBox.Show("Password Hashing Arguments error!\r\n" + ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (ObjectDisposedException ex)
+            {
+                //throw ex;
+                MessageBox.Show("Password Hashing error!\r\n" + ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            /*
             catch (Exception ex)
             {
                 MessageBox.Show("Password Hashing error!\r\n" + ex.Message.ToString(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            }*/
             return hash;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace NetscalerOTPAdmin
 {
     class OTPSeeds
     {
-
+        CultureInfo CurrentCulture = new CultureInfo("es-ES");
         internal static string GenerateSeedString(string device,string seed) {
 
             string updatedattribute = "";
@@ -117,7 +118,9 @@ namespace NetscalerOTPAdmin
                 throw new Exception("Incorrect parameters o null parameters!");
             }
 
-            seeds = seeds.Substring(2);
+            if (seeds.StartsWith("#@",StringComparison.Ordinal)) { 
+                seeds = seeds.Substring(2);
+            }
             // Remove the last , of the seed string
             seeds = seeds.Remove(seeds.Length - 1);
 
@@ -137,7 +140,7 @@ namespace NetscalerOTPAdmin
                 updatedattribute += seedarr[0] + "=" + seedarr[1] + ",";
             }
 
-            if (String.IsNullOrEmpty(updatedattribute))
+            if (!String.IsNullOrEmpty(updatedattribute))
             {
                 updatedattribute = "#@" + updatedattribute;
             }

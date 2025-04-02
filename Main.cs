@@ -7,6 +7,7 @@ using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.DirectoryServices.Protocols;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -16,13 +17,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using Ini;
+
 
 namespace NetscalerOTPAdmin
 {
     public partial class MainForm : Form
     {
-		private string MasterPasswd;
+        CultureInfo CurrentCulture = new CultureInfo("es-ES");
+
+        private string MasterPasswd;
         static public string MasterPasswdUser { get; set; }
 		private string ldapServer;
 		private string ldapUser;
@@ -226,11 +229,11 @@ namespace NetscalerOTPAdmin
                 Log("ERROR: Can't read config file - Incorrect encryption!");
                 MessageBox.Show("Can't read config file. " + Environment.NewLine + "Incorrect encryption!" + Environment.NewLine + Environment.NewLine + ce.Message);
             }
-            catch (Exception ex)
+            catch
 			{
-				// Exception catching, basically if a LDAP binding problem occurs
+				// Exception catching, basically if a LDAP binding problem occurs. Possible uncaught exceptions.... 
 				Log("ERROR: Can't connect to the LDAP Server");
-				MessageBox.Show("Can't connect to the LDAP Server. " + Environment.NewLine + "If using SSL connection, please use the FQDN instead of an IP Address" + Environment.NewLine + Environment.NewLine + ex.Message);
+				throw;				
 			}
 
         }
@@ -243,7 +246,9 @@ namespace NetscalerOTPAdmin
 			frm.FormClosed += new System.Windows.Forms.FormClosedEventHandler(frmSettings_FormClosed);
 
 			// Open the Setting form as modal
-			frm.ShowDialog();			
+			frm.ShowDialog();
+            // Dispose the form once closed
+            frm.Dispose();
 		}
 		private void frmSettings_FormClosed(object sender, EventArgs e)
 		{
@@ -267,8 +272,10 @@ namespace NetscalerOTPAdmin
 				tbLog.Select(tbLog.Text.Length, 0);
 				tbLog.ScrollToCaret();
             }
-			catch (Exception e) {  }
-
+			catch {
+                MessageBox.Show("Can't append to log!");
+				throw;
+			}
         }
 
 		private void lvUsers_SelectedIndexChanged(object sender, EventArgs e)
@@ -302,8 +309,9 @@ namespace NetscalerOTPAdmin
 				attributes.Clear();
 
 				// Print on the TextBox the list of seeds, to have a preview
-				int total_seeds = arr_seeds.Count() - 1;
-				lblDeviceSeeds.Text = "Device Seeds: " + total_seeds.ToString();
+				//int total_seeds = arr_seeds.Count() - 1;
+                int total_seeds = arr_seeds.Length - 1;
+                lblDeviceSeeds.Text = "Device Seeds: " + total_seeds.ToString(CurrentCulture);
 				foreach (string seed in arr_seeds)
 				{
 					// add a seed and remove the last char &
@@ -327,12 +335,16 @@ namespace NetscalerOTPAdmin
 
 			// Pass the LDAP object
 			frm.objLDAP = objLDAP;
-			frm.pntLocation = new Point(this.Location.X + 30, this.Location.Y + 30);
+			frm.Location = new Point(this.Location.X + 30, this.Location.Y + 30);
 			// Open the Setting form as modal
 			frm.ShowDialog();
-			//userListRefresh();
+            //userListRefresh();
 
-		}
+            // Dispose the form once closed
+            frm.Dispose();
+
+
+        }
 		private void btnEditUser_Click(object sender, EventArgs e)
 		{
 			frmEditUser frm = new frmEditUser();
@@ -342,14 +354,17 @@ namespace NetscalerOTPAdmin
 
 			// Pass parameters to the form
 			frm.objLDAP = objLDAP;
-			frm.pntLocation = new Point(this.Location.X + 30, this.Location.Y + 30);
+			frm.Location = new Point(this.Location.X + 30, this.Location.Y + 30);
 			ListViewItem user = lvUsers.SelectedItems[lvUsers.SelectedItems.Count - 1];			
 			frm.username = user.SubItems[0].Text;
 			frm.displayname = user.SubItems[1].Text;
 
 			// Open the Setting form as modal
 			frm.ShowDialog();
-		}
+
+			// Dispose the form once closed
+            frm.Dispose();
+        }
 
 		private void frmAddUser_FormClosed(object sender, EventArgs e)
 		{
@@ -372,7 +387,7 @@ namespace NetscalerOTPAdmin
 		private void tbFilter_TextChanged(object sender, EventArgs e)
 		{
 			lvUsers.Items.Clear();   // clear all items we have on the user listview
-			if (tbFilter.Text == "")
+			if (string.IsNullOrEmpty(tbFilter.Text))
 			{
 				lvUsers.Items.AddRange(allItems.ToArray());  // If no filter: add all items
 				return;

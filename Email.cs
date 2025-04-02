@@ -1,29 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using QRCoder;
+using System;
 using System.ComponentModel;
 using System.Configuration;
-using System.Data;
-using System.Drawing;
+using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security;
 using System.Windows.Forms;
 
 namespace NetscalerOTPAdmin
 {
     public partial class frmEmail : Form
     {
+        CultureInfo CurrentCulture = new CultureInfo("es-ES");
+
         public string htmlEmail { get; set; }
         public string displayName { get; set; }
         public string userEmail { get; set; }
 
-        //IniFile ini;
         private string baseDir;
         private string userAppDir;
-        public Point pntLocation;
         KeyValueConfigurationCollection settings;
+
+        SmtpClient mySmtpClient = null;
+        MailMessage myMail = null;
 
         public frmEmail()
         {
@@ -85,6 +85,17 @@ namespace NetscalerOTPAdmin
                 msg="Message sent!";
             }
 
+            if (mySmtpClient != null)
+            {
+                mySmtpClient.Dispose();
+                mySmtpClient = null;
+            }
+            if (myMail != null)
+            {
+                myMail.Dispose();
+                myMail = null;
+            }
+
             MessageBox.Show(msg);
             btnSendEmail.Enabled = true;
         }
@@ -104,8 +115,8 @@ namespace NetscalerOTPAdmin
                 SMTPFrom = SimmetricAES.DecryptString(SMTPFrom);
                 string SMTPSubject = getUserSetting(settings, "SMTPSubject");
 
-                SmtpClient mySmtpClient = new SmtpClient(SMTPServer);
-                mySmtpClient.Port = int.Parse(SMTPPort);
+                mySmtpClient = new SmtpClient(SMTPServer);
+                mySmtpClient.Port = int.Parse(SMTPPort,CurrentCulture);
 
                 mySmtpClient.EnableSsl = false; 
                 if (SMTPSSL=="1") mySmtpClient.EnableSsl = true;
@@ -115,14 +126,13 @@ namespace NetscalerOTPAdmin
                 // set smtp-client with basicAuthentication
                 mySmtpClient.UseDefaultCredentials = false;
                 mySmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                System.Net.NetworkCredential basicAuthenticationInfo = new
-                System.Net.NetworkCredential(SMTPUsername, SMTPPassword);
+                System.Net.NetworkCredential basicAuthenticationInfo = new System.Net.NetworkCredential(SMTPUsername, SMTPPassword);
                 mySmtpClient.Credentials = basicAuthenticationInfo;
 
                 // add from,to mailaddresses
                 MailAddress from = new MailAddress(SMTPFrom, "OTP Configuration");
                 MailAddress to = new MailAddress(userEmail, displayName);
-                MailMessage myMail = new System.Net.Mail.MailMessage(from, to);
+                myMail = new System.Net.Mail.MailMessage(from, to);
 
                 // add ReplyTo
                 //MailAddress replyTo = new MailAddress("reply@example.com");
@@ -145,15 +155,15 @@ namespace NetscalerOTPAdmin
                 //mySmtpClient.SendMailAsync(myMail);
                 btnSendEmail.Enabled = false;
             }
-
+            catch (FormatException ex)
+            {
+                MessageBox.Show("Email Format Error!\r\n" + ex.Message,"Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (SmtpException ex)
             {
-                throw new ApplicationException("Exception on SMTP module has occured: " + ex.Message);
+                MessageBox.Show("SMTP Exception Error!\r\n" + ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -179,16 +189,51 @@ namespace NetscalerOTPAdmin
                     }
                 }
             }
-            catch (Exception ex)
+            catch (PathTooLongException ex)
             {
-                Console.WriteLine(ex.ToString());
+                MessageBox.Show("Can't save email file: " + ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
+            catch (DirectoryNotFoundException ex)
+            {
+                MessageBox.Show("Can't save email file: " + ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                MessageBox.Show("Can't save email file: " + ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("Can't save email file: " + ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (NotSupportedException ex)
+            {
+                MessageBox.Show("Can't save email file: " + ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (SecurityException ex)
+            {
+                MessageBox.Show("Can't save email file: " + ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-        private void frmEmail_Load(object sender, EventArgs e)
+        protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            this.Location = pntLocation;
+            // Dispose of the image when the form is closed
+            if (mySmtpClient != null)
+            {
+                mySmtpClient.Dispose();
+                mySmtpClient = null;
+            }
+            if (myMail != null)
+            {
+                myMail.Dispose();
+                myMail = null;
+            }
+            base.OnFormClosed(e);
         }
+
     }
 }

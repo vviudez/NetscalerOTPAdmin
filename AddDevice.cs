@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
-using System.Data;
-using System.DirectoryServices;
 using System.DirectoryServices.Protocols;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using OtpNet;
@@ -19,7 +12,7 @@ using QRCoder;
 
 namespace NetscalerOTPAdmin
 {
-	public partial class frmAddDevice : Form
+    public partial class frmAddDevice : Form
 	{
 		public LDAP objLDAP { get; set; }
 		public string username { get; set; }
@@ -38,7 +31,6 @@ namespace NetscalerOTPAdmin
 
 		private string baseDir;
         private string userAppDir;
-        public Point pntLocation;
 
         SearchResultEntry userDirectoryEntry;
 
@@ -51,7 +43,7 @@ namespace NetscalerOTPAdmin
             {
                 SettingValue = col[settingName].Value;
             }
-
+            
             return SettingValue;
         }
 
@@ -97,16 +89,26 @@ namespace NetscalerOTPAdmin
 		private static Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
 		{
 			// BitmapImage bitmapImage = new BitmapImage(new Uri("../Images/test.png", UriKind.Relative));
+			System.Drawing.Bitmap bitmap = null;
 
-			using (MemoryStream outStream = new MemoryStream())
+            try
 			{
-				BitmapEncoder enc = new BmpBitmapEncoder();
-				enc.Frames.Add(BitmapFrame.Create(bitmapImage));
-				enc.Save(outStream);
-				System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(outStream);
+                using (MemoryStream outStream = new MemoryStream())
+                {
+                    BitmapEncoder enc = new BmpBitmapEncoder();
+                    enc.Frames.Add(BitmapFrame.Create(bitmapImage));
+                    enc.Save(outStream);
+                    bitmap = new Bitmap(outStream);
 
-				return new Bitmap(bitmap);
-			}
+                    return new Bitmap(bitmap);
+                }
+            }
+			catch
+			{
+				// Dispose bitmap if an exception occurs
+                if (bitmap != null) bitmap.Dispose();
+                throw;
+            }
 		}
 
 		private void btnAddDevice_Click(object sender, EventArgs e)
@@ -130,10 +132,11 @@ namespace NetscalerOTPAdmin
 					var qrCode = new QRCode(qrCodeData);
 
 					var imgType = Base64QRCode.ImageType.Jpeg;
+
 					Base64QRCode qrCodeB64 = new Base64QRCode(qrCodeData);
 					qrCodeImageAsBase64 = qrCodeB64.GetGraphic(20, Color.Black, Color.White, true, imgType);
 
-					using (qrCode)
+                    using (qrCode)
 					{
 						var qrCodeImage = qrCode.GetGraphic(20);
 
@@ -149,11 +152,11 @@ namespace NetscalerOTPAdmin
 
 
 							pbQRCode.Image = BitmapImage2Bitmap(bitmapImage);
-						}
+                        }
 					}
-					qrCodeB64.Dispose();
-				}
-
+                    qrCode.Dispose();
+                    qrCodeB64.Dispose();
+                }
 				qrGenerator.Dispose();
 
 				tbQRCode.Text = Secret;
@@ -169,14 +172,7 @@ namespace NetscalerOTPAdmin
 			}
 		}
 
-
-		private void btnCancel_Click(object sender, EventArgs e)
-		{
-			this.Close();
-		}
-
-
-		private bool addSeedOnUser()
+        private bool addSeedOnUser()
 		{
             // Adding the new device/seed on userparamter
             string allseeds = objLDAP.GetAttribute(username, userAttribute);
@@ -185,16 +181,15 @@ namespace NetscalerOTPAdmin
             return objLDAP.updateUser(userDirectoryEntry, seedvalue);
 		}
 
-
-		private void btnSave_Click(object sender, EventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)
 		{
             if (addSeedOnUser())
             {
-                MessageBox.Show("Seed save completed!");
+                MessageBox.Show("Seed save completed!","",MessageBoxButtons.OK,MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Error in saving this Seed!");
+                MessageBox.Show("Error in saving this Seed!","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             this.Close();
@@ -204,10 +199,10 @@ namespace NetscalerOTPAdmin
 		{
             if (addSeedOnUser())
             {
-                MessageBox.Show("Seed save completed!\nPreparing email template....");
+                MessageBox.Show("Seed save completed!\nPreparing email template....", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-				//string originalFile = "emailTemplate.md";
-				string originalFile = SMTPTemplate;
+                //string originalFile = "emailTemplate.md";
+                string originalFile = SMTPTemplate;
 
 				//string htmlEmail = string.Empty;
 				string htmlEmail = "<html><head><style>"
@@ -244,21 +239,25 @@ namespace NetscalerOTPAdmin
 					frm.htmlEmail = htmlEmail;
 					frm.displayName = displayname; 
 					frm.userEmail = email;
-					frm.pntLocation = new Point(this.Location.X + 20, this.Location.Y + 20);
+					frm.Location = new Point(this.Location.X + 20, this.Location.Y + 20);
 					frm.ShowDialog();
 
 					frm.Dispose();
 
 					this.Close();
 				}
-				catch(Exception ex)
+				catch(IOException ex)
 				{
-					MessageBox.Show("Error generating email template: " + ex.Message);
-				}
+                    MessageBox.Show("Error accessing email template: " + ex.Message,"Error!",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                }
+				catch(InvalidOperationException ex)
+				{
+					MessageBox.Show("Error generating email form: " + ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
-                MessageBox.Show("Error in saving this Seed!");
+                MessageBox.Show("Error in saving this Seed!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -274,10 +273,31 @@ namespace NetscalerOTPAdmin
 			}
 		}
 
-		private void frmAddDevice_Load(object sender, EventArgs e)
-		{
-			this.Location = pntLocation;
-		}
-	}
+
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            // Dispose of the image when the form is closed
+            if (pbQRCode.Image != null)
+            {
+                pbQRCode.Image.Dispose();
+                pbQRCode.Image = null;
+            }
+
+            /*if (objLDAP != null)
+            {
+                objLDAP.Dispose();
+                objLDAP = null;
+            }*/
+
+            base.OnFormClosed(e);
+        }
+
+    }
 
 }

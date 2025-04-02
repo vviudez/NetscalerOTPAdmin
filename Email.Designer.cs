@@ -130,7 +130,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmEmail";
             this.Text = "Email Preview";
-            this.Load += new System.EventHandler(this.frmEmail_Load);
             this.Shown += new System.EventHandler(this.frmEmail_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();

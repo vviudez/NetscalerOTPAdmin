@@ -172,7 +172,6 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmEditUser";
             this.Text = "Edit User";
-            this.Load += new System.EventHandler(this.frmEditUser_Load);
             this.Shown += new System.EventHandler(this.frmEditUser_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.olvSeeds)).EndInit();
             this.ResumeLayout(false);

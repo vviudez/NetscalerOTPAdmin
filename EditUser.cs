@@ -13,11 +13,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using QRCoder;
 using System.Configuration;
+using System.Globalization;
 
 namespace NetscalerOTPAdmin
 {
     public partial class frmEditUser : Form
     {
+        CultureInfo CurrentCulture = new CultureInfo("es-ES");
+
         public LDAP objLDAP { get; set; }
         public string username { get; set; }
         public string displayname { get; set; }
@@ -34,7 +37,7 @@ namespace NetscalerOTPAdmin
 
         private string baseDir;
         private string userAppDir;
-        public Point pntLocation;
+        //public Point pntLocation;
 
         // Get settings from user.config
         private string getUserSetting(KeyValueConfigurationCollection col, string settingName)
@@ -136,14 +139,16 @@ namespace NetscalerOTPAdmin
             lblUser.Text = "Selected User: " + displayname + " (" + username + ")";
 
             string seeds = objLDAP.GetAttribute(username, objLDAP.userAttribute);
-            seeds = seeds.Substring(2);
+            if (seeds.StartsWith("#@",StringComparison.Ordinal)) { 
+                seeds = seeds.Substring(2);
+            }
 
             string[] arr_seeds = seeds.Split(',');
 
             foreach (string seedt in arr_seeds)
             {
                 string[] seedarr = seedt.Split('=');
-                if (seedt != "")
+                if (!string.IsNullOrEmpty(seedt))
                 {
                     Seed s = new Seed(seedarr[0], seedarr[1].TrimEnd('&'));
                     olvSeeds.AddObject(s);
@@ -168,7 +173,7 @@ namespace NetscalerOTPAdmin
                         frmE.username = username;
                         frmE.DeviceName = this.olvSeeds.Items[e2.RowIndex].SubItems[0].Text;
                         frmE.Seed = this.olvSeeds.Items[e2.RowIndex].SubItems[1].Text;
-                        frmE.pntLocation = new Point(this.Location.X + 20, this.Location.Y + 20);
+                        frmE.Location = new Point(this.Location.X + 20, this.Location.Y + 20);
 
                         frmE.ShowDialog();
                         frmE.Dispose();
@@ -179,7 +184,7 @@ namespace NetscalerOTPAdmin
                     case "Remove":
                         try { 
                             // Show a Warning to the user, to allow to remove the Device/Seed selected.
-                            if (MessageBox.Show(string.Format("Warning, If you continue you will REMOVE the seed defined for the device {0}!!\n\nDo you want to remove the seed {1}?", this.olvSeeds.Items[e2.RowIndex].SubItems[0].Text, this.olvSeeds.Items[e2.RowIndex].SubItems[1].Text), "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+                            if (MessageBox.Show(string.Format(CurrentCulture, "Warning, If you continue you will REMOVE the seed defined for the device {0}!!\n\nDo you want to remove the seed {1}?", this.olvSeeds.Items[e2.RowIndex].SubItems[0].Text, this.olvSeeds.Items[e2.RowIndex].SubItems[1].Text), "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
                             {
                                 // Once accepted, we remove the Device/Seed from the list
                                 this.olvSeeds.Items.RemoveAt(e2.RowIndex);
@@ -191,9 +196,13 @@ namespace NetscalerOTPAdmin
                                 objLDAP.updateUser(username, updatedattribute);
                             }
                         }
-                        catch(Exception ex)
+                        catch(ArgumentOutOfRangeException ex)
+                        {                            
+                            MessageBox.Show(ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        catch(ArgumentNullException ex)
                         {
-                            MessageBox.Show(ex.Message);
+                            MessageBox.Show(ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         break;
                     case "Send Email":
@@ -210,6 +219,8 @@ namespace NetscalerOTPAdmin
                             Base64QRCode qrCodeB64 = new Base64QRCode(qrCodeData);
                             qrCodeImageAsBase64 = qrCodeB64.GetGraphic(20, Color.Black, Color.White, true, imgType);
                         }
+
+                        qrGenerator.Dispose();
 
                         //string originalFile = "emailTemplate.md";
                         string originalFile = SMTPTemplate;
@@ -251,14 +262,26 @@ namespace NetscalerOTPAdmin
                             frm.htmlEmail = htmlEmail;
                             frm.displayName = displayname;
                             frm.userEmail = email;
-                            frm.pntLocation = new Point(this.Location.X + 20, this.Location.Y + 20);
+                            frm.Location = new Point(this.Location.X + 20, this.Location.Y + 20);
                             frm.ShowDialog();
 
                             frm.Dispose();
                         }
-                        catch (Exception ex)
+                        catch (FileNotFoundException ex)
                         {
-                            MessageBox.Show("Error generating email template: " + ex.Message);
+                            MessageBox.Show("Error generating email template: " + ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        catch (DirectoryNotFoundException ex)
+                        {
+                            MessageBox.Show("Error generating email template: " + ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        catch (IOException ex)
+                        {
+                            MessageBox.Show("Error generating email template: " + ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        catch (ArgumentNullException ex)
+                        {
+                            MessageBox.Show(ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
 
                         break;
@@ -268,7 +291,7 @@ namespace NetscalerOTPAdmin
 
                         frmQR.DeviceName = this.olvSeeds.Items[e2.RowIndex].SubItems[0].Text;
                         frmQR.Seed = this.olvSeeds.Items[e2.RowIndex].SubItems[1].Text;
-                        frmQR.pntLocation = new Point(this.Location.X + 20, this.Location.Y + 20);
+                        frmQR.Location = new Point(this.Location.X + 20, this.Location.Y + 20);
                         frmQR.ShowDialog();
 
                         frmQR.Dispose();
@@ -298,17 +321,12 @@ namespace NetscalerOTPAdmin
             frm.username = username;
             frm.email = email;
             frm.displayname = displayname;
-            frm.pntLocation = new Point(this.Location.X + 20, this.Location.Y + 20);
+            frm.Location = new Point(this.Location.X + 20, this.Location.Y + 20);
             frm.ShowDialog();
 
             frm.Dispose();
             populateDeviceList(false);
 
-        }
-
-        private void frmEditUser_Load(object sender, EventArgs e)
-        {
-            this.Location = pntLocation;
         }
     }
 }

@@ -41,7 +41,7 @@ namespace NetscalerOTPAdmin
 
 		private string baseDir;
         private string userAppDir;
-        public Point pntLocation;
+        //public Point pntLocation;
 
         SearchResultEntry userDirectoryEntry;
 
@@ -160,22 +160,32 @@ namespace NetscalerOTPAdmin
 			}
 		}
 
-		private Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
-		{
-			// BitmapImage bitmapImage = new BitmapImage(new Uri("../Images/test.png", UriKind.Relative));
+        private static Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
+        {
+            // BitmapImage bitmapImage = new BitmapImage(new Uri("../Images/test.png", UriKind.Relative));
+            System.Drawing.Bitmap bitmap = null;
 
-			using (MemoryStream outStream = new MemoryStream())
-			{
-				BitmapEncoder enc = new BmpBitmapEncoder();
-				enc.Frames.Add(BitmapFrame.Create(bitmapImage));
-				enc.Save(outStream);
-				System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(outStream);
+            try
+            {
+                using (MemoryStream outStream = new MemoryStream())
+                {
+                    BitmapEncoder enc = new BmpBitmapEncoder();
+                    enc.Frames.Add(BitmapFrame.Create(bitmapImage));
+                    enc.Save(outStream);
+                    bitmap = new Bitmap(outStream);
 
-				return new Bitmap(bitmap);
-			}
-		}
+                    return new Bitmap(bitmap);
+                }
+            }
+            catch
+            {
+                // Dispose bitmap if an exception occurs
+                if (bitmap != null) bitmap.Dispose();
+                throw;
+            }
+        }
 
-		private void btnAddDevice_Click(object sender, EventArgs e)
+        private void btnAddDevice_Click(object sender, EventArgs e)
 		{
 			if (!(String.IsNullOrEmpty(usernameSelected)))
 			{
@@ -192,10 +202,11 @@ namespace NetscalerOTPAdmin
 					var qrCode = new QRCode(qrCodeData);
 					
 					var imgType = Base64QRCode.ImageType.Jpeg;
+					
 					Base64QRCode qrCodeB64 = new Base64QRCode(qrCodeData);
 					qrCodeImageAsBase64 = qrCodeB64.GetGraphic(20, Color.Black, Color.White, true, imgType);
 
-					using (qrCode)
+                    using (qrCode)
 					{
 						var qrCodeImage = qrCode.GetGraphic(20);
 
@@ -209,17 +220,18 @@ namespace NetscalerOTPAdmin
 							bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
 							bitmapImage.EndInit();
 
-							
 							pbQRCode.Image = BitmapImage2Bitmap(bitmapImage);
 							
 						}
 					}
-				}
+                    qrCode.Dispose();
+                    qrCodeB64.Dispose();
+                }
 				tbQRCode.Text = Secret;
 				btnSave.Enabled = true;
 				btnEmail.Enabled = true;
 
-				qrGenerator.Dispose();
+                qrGenerator.Dispose();
             }
 
 		}
@@ -310,27 +322,51 @@ namespace NetscalerOTPAdmin
 					frm.htmlEmail = htmlEmail;
 					frm.displayName = displayname; 
 					frm.userEmail = email;
-					frm.pntLocation = new Point(this.Location.X + 20, this.Location.Y + 20);
-					frm.ShowDialog();
+                    frm.Location = new Point(this.Location.X + 20, this.Location.Y + 20);
+                    frm.ShowDialog();
 
-					this.Close();
+                    // Dispose the form once closed
+                    frm.Dispose();
+
+                    this.Close();
 
 				}
-				catch(Exception ex)
+				catch(FileNotFoundException ex)
 				{
-					MessageBox.Show("Error generating email template: " + ex.Message);
+					MessageBox.Show("Error generating email template: " + ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (DirectoryNotFoundException ex)
+                {
+                    MessageBox.Show("Error generating email template: " + ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show("Error generating email template: " + ex.Message, "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch
+				{
+					throw;
 				}
             }
 			else
 			{
-                MessageBox.Show("Error in saving this Seed!");
+                MessageBox.Show("Error in saving this Seed!", "Error!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-		private void frmAddUser_Load(object sender, EventArgs e)
-		{
-			this.Location = pntLocation;
-		}
-	}
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            // Dispose of the image when the form is closed
+            if (pbQRCode.Image != null)
+            {
+                pbQRCode.Image.Dispose();
+                pbQRCode.Image = null;
+            }
+
+            base.OnFormClosed(e);
+        }
+
+    }
 
 }
+

@@ -6,6 +6,7 @@ using System.Data;
 using System.DirectoryServices;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,9 @@ namespace NetscalerOTPAdmin
 {
     public partial class frmEditDevice : Form
     {
-		public LDAP objLDAP { get; set; }
+        CultureInfo CurrentCulture = new CultureInfo("es-ES");
+
+        public LDAP objLDAP { get; set; }
 		public string username { get; set; }
 		public string DeviceName { get; set; }
 		public string Seed { get; set; }
@@ -32,7 +35,7 @@ namespace NetscalerOTPAdmin
 
 		private string baseDir;
         private string userAppDir;
-        public Point pntLocation;
+        //public Point pntLocation;
 
 
         // Get settings from user.config
@@ -71,7 +74,7 @@ namespace NetscalerOTPAdmin
         private void btnOk_Click(object sender, EventArgs e)
         {
 			// If the device name is not empty or not changed, we do nothing
-			if ((tbDevice.Text!="") || (tbDevice.Text != DeviceName)) { 
+			if (!string.IsNullOrEmpty(tbDevice.Text) && (tbDevice.Text != DeviceName)) { 
 				// Grab all Seeds on the user attribute
 				string seeds = objLDAP.GetAttribute(username, objLDAP.userAttribute);
 
@@ -80,30 +83,40 @@ namespace NetscalerOTPAdmin
 				objLDAP.updateUser(username, updatedattribute);
 
 				this.Close();
-			}
-		}
+            }
+        }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
 			this.Close();
         }
 
-		private Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
-		{
-			// BitmapImage bitmapImage = new BitmapImage(new Uri("../Images/test.png", UriKind.Relative));
+        private static Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
+        {
+            // BitmapImage bitmapImage = new BitmapImage(new Uri("../Images/test.png", UriKind.Relative));
+            System.Drawing.Bitmap bitmap = null;
 
-			using (MemoryStream outStream = new MemoryStream())
-			{
-				BitmapEncoder enc = new BmpBitmapEncoder();
-				enc.Frames.Add(BitmapFrame.Create(bitmapImage));
-				enc.Save(outStream);
-				System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(outStream);
+            try
+            {
+                using (MemoryStream outStream = new MemoryStream())
+                {
+                    BitmapEncoder enc = new BmpBitmapEncoder();
+                    enc.Frames.Add(BitmapFrame.Create(bitmapImage));
+                    enc.Save(outStream);
+                    bitmap = new Bitmap(outStream);
 
-				return new Bitmap(bitmap);
-			}
-		}
+                    return new Bitmap(bitmap);
+                }
+            }
+            catch
+            {
+                // Dispose bitmap if an exception occurs
+                if (bitmap != null) bitmap.Dispose();
+                throw;
+            }
+        }
 
-		private void frmEditDevice_Shown(object sender, EventArgs e)
+        private void frmEditDevice_Shown(object sender, EventArgs e)
         {
 			tbDevice.Text = DeviceName;
 			tbSeed.Text = Seed;
@@ -119,8 +132,8 @@ namespace NetscalerOTPAdmin
 				var imgType = Base64QRCode.ImageType.Jpeg;
 				Base64QRCode qrCodeB64 = new Base64QRCode(qrCodeData);
 				qrCodeImageAsBase64 = qrCodeB64.GetGraphic(20, Color.Black, Color.White, true, imgType);
-
-				using (qrCode)
+				
+                using (qrCode)
 				{
 					var qrCodeImage = qrCode.GetGraphic(20);
 
@@ -137,12 +150,23 @@ namespace NetscalerOTPAdmin
 						pbQRCode.Image = BitmapImage2Bitmap(bitmapImage);
 					}
 				}
-			}
-		}
+                qrCode.Dispose();
+                qrCodeB64.Dispose();
+            }
 
-		private void frmEditDevice_Load(object sender, EventArgs e)
-		{
-			this.Location = pntLocation;
-		}
-	}
+			qrGenerator.Dispose();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            // Dispose of the image when the form is closed
+            if (pbQRCode.Image != null)
+            {
+                pbQRCode.Image.Dispose();
+                pbQRCode.Image = null;
+            }
+
+            base.OnFormClosed(e);
+        }
+    }
 }

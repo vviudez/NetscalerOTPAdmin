@@ -6,14 +6,17 @@ using System.Windows.Input;
 using System.Configuration;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace NetscalerOTPAdmin
 {
     static public class SimmetricAES
     {
+        static private CultureInfo CurrentCulture = new CultureInfo("es-ES");
+
         private static string CreateKeyWithUserName()
-        {
-            string baseW = Convert.ToBase64String(Encoding.UTF8.GetBytes(Environment.UserName.ToLower()));
+        {            
+            string baseW = Convert.ToBase64String(Encoding.UTF8.GetBytes(Environment.UserName.ToLower(CurrentCulture)));
             string baseWClean = Regex.Replace(baseW, @"[^a-zA-Z0-9\s]", "");
 
             string result = string.Empty;

@@ -164,7 +164,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmAddDevice";
             this.Text = "Add New Device";
-            this.Load += new System.EventHandler(this.frmAddDevice_Load);
             this.Shown += new System.EventHandler(this.frmAddDevice_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.pbQRCode)).EndInit();
             this.ResumeLayout(false);
