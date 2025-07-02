@@ -7,6 +7,15 @@ using System.Configuration;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Net.NetworkInformation;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Modes;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Crypto.Engines;
+using Org.BouncyCastle.Security;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
+
 
 namespace NetscalerOTPAdmin
 {
@@ -245,6 +254,8 @@ namespace NetscalerOTPAdmin
 
             using (Aes aes = Aes.Create())
             {
+                //byte[] ivt =Convert.FromBase64String(AESIV);                
+
                 aes.Key = Convert.FromBase64String(AESKey); //Encoding.UTF8.GetBytes(AESKey);
                 aes.IV = Convert.FromBase64String(AESIV);
 
@@ -262,6 +273,81 @@ namespace NetscalerOTPAdmin
                 }
             }
         }
+
+
+
+
+        // Using .NET Native AES GCM Decryption 
+        public static string DecryptStringGCM(string cipherText, string AESKey, string AESIV, string tag)
+        {
+            try
+            {
+                using (var aes = new AesGcm(Convert.FromBase64String(AESKey)))
+                {
+                    byte[] cyphertxt = Convert.FromBase64String(cipherText);
+                    var plaintext = new byte[cyphertxt.Length];
+
+                    aes.Decrypt(Convert.FromBase64String(AESIV), cyphertxt, Convert.FromBase64String(tag), plaintext);
+
+                    // Logging the decrypted message (optional)
+                    // Console.WriteLine($"The decrypted message is: {Encoding.UTF8.GetString(plaintext)}");
+
+                    return Convert.ToBase64String(plaintext);
+                }
+            }
+            catch (CryptographicException ex)
+            {
+                Console.Error.WriteLine($"Incorrect decryption: {ex.Message}");
+                return null;
+            }
+        }
+
+
+
+        // Using BouncyCastle AES GCM Decryption
+        public static byte[] DecryptBouncyCastle(byte[] ciphertext, byte[] sessionKey, byte[] initVector)
+        {
+            try
+            {
+                byte[] plaintext = null ;
+
+                if (ciphertext != null) {
+
+                    // Create the GCM cipher with the AES engine
+                    GcmBlockCipher cipher = new GcmBlockCipher(new AesEngine());
+
+                    // Set the parameters for decryption
+                    AeadParameters parameters = new AeadParameters(new KeyParameter(sessionKey), 128, initVector, null);
+                    cipher.Init(false, parameters); // false to indicate decryption operation
+
+                    // Set the output size for the plaintext buffer
+                    plaintext = new byte[cipher.GetOutputSize(ciphertext.Length)];
+
+                    // Process the ciphertext bytes
+                    int len = cipher.ProcessBytes(ciphertext, 0, ciphertext.Length, plaintext, 0);
+
+                    // Ends decryption and returns the number of bytes written to the output buffer
+                    cipher.DoFinal(plaintext, len);                
+                }
+                return plaintext;
+            }
+            catch (CryptographicException ex)
+            {
+                MessageBox.Show($"Incorrect decryption: {ex.Message}");
+                return null;
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show($"Incorrect decryption: {ex.Message}");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Incorrect decryption: {ex.Message}");
+                return null;
+            }
+        }
+
 
 
     }

@@ -8,15 +8,20 @@ using System.DirectoryServices.AccountManagement;
 using System.DirectoryServices.Protocols;
 using System.Drawing;
 using System.Globalization;
+using System.Text.Json;
 using System.IO;
+using System.IO.Packaging;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography;
 using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Forms;
+using static NetscalerOTPAdmin.OTPSeeds;
 
 
 namespace NetscalerOTPAdmin
@@ -36,8 +41,11 @@ namespace NetscalerOTPAdmin
         private string userAttribute;
 		private string OTPDefaultDescription;
 		private string OTPAccountDesciption;
+        private string OTPEncrypt;
+        private string OTPCertificate;
+        private string OTPPrivateKey;
 
-		private string baseDir;
+        private string baseDir;
 		private string userAppDir;
 
 
@@ -100,8 +108,11 @@ namespace NetscalerOTPAdmin
             userAttribute = getUserSetting(settings, "UserAttribute");
             OTPDefaultDescription = getUserSetting(settings, "OTPDefaultDescription");
             OTPAccountDesciption = getUserSetting(settings, "OTPAccountDesciption");
+            OTPEncrypt = getUserSetting(settings, "OTPEncrypt");
+            OTPCertificate = getUserSetting(settings, "OTPCertificate");
+            OTPPrivateKey = getUserSetting(settings, "OTPPrivateKey");
 
-		}
+        }
 
 		private void startProcess()
 		{
@@ -297,13 +308,43 @@ namespace NetscalerOTPAdmin
 				//string displayname = user.SubItems[1].Text; //not used
 				string seeds = user.SubItems[2].Text;
 
-				// Remove the first 2 chars of the seed string.
-				seeds = seeds.Substring(2);
+                Log("Selected user: " + username + " SEEDS:" + seeds);
 
-				Log("Selected user: " + username +" SEEDS:"+ seeds);
-			
-				// Split the multipe seeds, that are separated by ,
-				string[] arr_seeds = seeds.Split(',');
+				string[] arr_seeds;
+
+                if (seeds.Contains("{\"otpdata\":{\"devices\":{"))
+				{
+					Log("Selected encrypted seeds");
+
+
+                    OTPRoot root = JsonSerializer.Deserialize<OTPRoot>(seeds);
+
+                    Dictionary<string, string> devices = root.otpdata.devices;
+
+					List <string> listseeds= new List<string>();
+
+                    foreach (var device in devices)
+                    {
+						string plainseed = DecryptSeed(device.Value,OTPCertificate,OTPPrivateKey);
+
+                        Log("DESC: " + device.Key + " -- SEED:" + plainseed);
+						listseeds.Add(device.Key+"="+ plainseed);
+                    }
+
+                    //arr_seeds = devices.Select(kvp => $"{kvp.Key}:{kvp.Value}").ToArray();
+					arr_seeds = listseeds.ToArray();
+
+                }
+				else
+				{
+                    Log("Selected plaintext seeds");
+                    // Remove the first 2 chars of the seed string.
+                    seeds = seeds.Substring(2);
+
+                    // Split the multipe seeds, that are separated by ,
+                    arr_seeds = seeds.Split(',');
+                }
+
 
 				// Clearing the TextBox to show the attributes
 				attributes.Clear();
@@ -396,7 +437,7 @@ namespace NetscalerOTPAdmin
 			var list = allItems.Cast<ListViewItem>()
 							   .Where(x => x.SubItems
 											.Cast<ListViewItem.ListViewSubItem>()
-											.Any(y => y.Text.Contains(tbFilter.Text)))
+											.Any(y => y.Text.Contains(tbFilter.Text, StringComparison.OrdinalIgnoreCase)))
 							   .ToArray();
 			lvUsers.Items.AddRange(list);  // now we add the result on the listview
 		}
@@ -433,7 +474,9 @@ namespace NetscalerOTPAdmin
 		}
 		private void btnClose_Click(object sender, EventArgs e)
 		{
-			Application.Exit();
+            Log("Closing application..."); 
+			objLDAP.Dispose();            
+            Application.Exit();
 		}
 
         public string AssemblyCopyright

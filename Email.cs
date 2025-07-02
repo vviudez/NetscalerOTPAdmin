@@ -7,6 +7,7 @@ using System.IO;
 using System.Net.Mail;
 using System.Security;
 using System.Windows.Forms;
+using static QRCoder.PayloadGenerator;
 
 namespace NetscalerOTPAdmin
 {

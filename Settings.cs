@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Security.Cryptography;
 using System.Security.Policy;
 using System.Text;
@@ -13,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using NetscalerOTPAdmin.Properties;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace NetscalerOTPAdmin
 {
@@ -30,6 +34,9 @@ namespace NetscalerOTPAdmin
         private string userAttribute;
         private string OTPDefaultDescription;
         private string OTPAccountDesciption;
+        private string OTPEncrypt;
+        private string OTPCertificate;
+        private string OTPPrivateKey;
 
         private string UseEmail;
         private string SMTPServer;
@@ -102,6 +109,9 @@ namespace NetscalerOTPAdmin
             userAttribute = getUserSetting(settings, "UserAttribute");
             OTPDefaultDescription = getUserSetting(settings, "OTPDefaultDescription");
             OTPAccountDesciption = getUserSetting(settings, "OTPAccountDesciption");
+            OTPEncrypt = getUserSetting(settings, "OTPEncrypt");
+            OTPCertificate = getUserSetting(settings, "OTPCertificate");
+            OTPPrivateKey = getUserSetting(settings, "OTPPrivateKey");
 
 
             tbLDAPServer.Text = ldapServer;
@@ -110,7 +120,8 @@ namespace NetscalerOTPAdmin
             tbDomain.Text = ldapDomain;
             tbBaseDN.Text = ldapBaseDN;
 
-            if (String.IsNullOrEmpty(ldapProtocol)){
+            if (String.IsNullOrEmpty(ldapProtocol))
+            {
                 cbLDAPSecurity.SelectedItem = "TLS";
             }
             else
@@ -126,9 +137,37 @@ namespace NetscalerOTPAdmin
             {
                 tbOTPAttribute.Text = userAttribute;
             }
-                
+
             tbOTPDescription.Text = OTPDefaultDescription;
             tbOTPAccountDesc.Text = OTPAccountDesciption;
+
+            if (String.IsNullOrEmpty(OTPEncrypt))
+            {
+                cbOTPEncrypt.Checked = false;
+                btnSelectCertificate.Enabled = false;
+                btnSelectPrivateKey.Enabled = false;
+
+            }
+            else
+            {
+                if (OTPEncrypt == "1")
+                {
+                    cbOTPEncrypt.Checked = true;
+                    btnSelectCertificate.Enabled = true;
+                    btnSelectPrivateKey.Enabled = true;
+                    lblCertificate.Text = OTPCertificate;
+                    lblPrivateKey.Text = OTPPrivateKey;
+                }
+                else
+                {
+                    cbOTPEncrypt.Checked = false;
+                    btnSelectCertificate.Enabled = false;
+                    btnSelectPrivateKey.Enabled = false;
+                    lblCertificate.Text = "...";
+                    lblPrivateKey.Text = "...";
+                }
+            }
+
 
             UseEmail = getUserSetting(settings, "UseEmail");
             if (UseEmail == "1")
@@ -181,7 +220,7 @@ namespace NetscalerOTPAdmin
             else cbSMTPSSL.Checked = false;
 
 
-            string[] fileEntries= Directory.GetFiles(baseDir, "*.md");
+            string[] fileEntries = Directory.GetFiles(baseDir, "*.md");
             string fichero;
             foreach (string fileName in fileEntries)
             {
@@ -223,21 +262,22 @@ namespace NetscalerOTPAdmin
 
             if ((String.IsNullOrEmpty(tbLDAPServer.Text)) ||
                 (String.IsNullOrEmpty(tbDomain.Text)) ||
-                (String.IsNullOrEmpty(tbUsername.Text)) || 
-                (String.IsNullOrEmpty(tbPassword.Text)) || 
+                (String.IsNullOrEmpty(tbUsername.Text)) ||
+                (String.IsNullOrEmpty(tbPassword.Text)) ||
                 (String.IsNullOrEmpty(tbOTPAttribute.Text))
                 )
             {
                 MessageBox.Show("Settings are not correct!. Please fill at least an LDAP Server and access Credentials, and required attributes");
-                correctConfig_LDAP=false;
+                correctConfig_LDAP = false;
             }
             else
             {
-                correctConfig_LDAP=true;
+                correctConfig_LDAP = true;
             }
 
             correctConfig_SMTP = true;
-            if (!cbEmailConfig.Checked) { 
+            if (!cbEmailConfig.Checked)
+            {
                 if ((String.IsNullOrEmpty(tbSMTPServer.Text)) ||
                     (String.IsNullOrEmpty(tbSMTPPort.Text))
                     )
@@ -246,8 +286,9 @@ namespace NetscalerOTPAdmin
                     correctConfig_SMTP = false;
                 }
             }
-            
-            if (cbChangePwd.Checked) { 
+
+            if (cbChangePwd.Checked)
+            {
                 if (String.IsNullOrEmpty(tbMasterPwd.Text))
                 {
                     MessageBox.Show("Master password is not set!. Please fill the Master password your want, and use always the same to access the application");
@@ -260,7 +301,7 @@ namespace NetscalerOTPAdmin
             }
             else
             {
-                if ( (String.IsNullOrEmpty(MasterPasswd)) && (String.IsNullOrEmpty(tbMasterPwd.Text)) )
+                if ((String.IsNullOrEmpty(MasterPasswd)) && (String.IsNullOrEmpty(tbMasterPwd.Text)))
                 {
                     MessageBox.Show("Master password is not set!. Please fill the Master password your want, and use always the same to access the application");
                     correctConfig_MP = false;
@@ -300,7 +341,7 @@ namespace NetscalerOTPAdmin
                 {
                     hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(dataToComputeHash));
                     hash = Encoding.UTF8.GetString(hmacsha256.Hash);
-                    
+
                     hash = System.Convert.ToBase64String(hmacsha256.Hash);
                 }
             }
@@ -324,7 +365,8 @@ namespace NetscalerOTPAdmin
 
         private void AddSetting(KeyValueConfigurationCollection settings, string key, string value)
         {
-            if (settings[key] == null) { 
+            if (settings[key] == null)
+            {
                 settings.Add(key, value);
             }
             else
@@ -335,7 +377,8 @@ namespace NetscalerOTPAdmin
 
         private void bntOK_Click(object sender, EventArgs e)
         {
-            try {
+            try
+            {
 
                 string userAppConfigFile = userAppDir + "user.config";
                 ExeConfigurationFileMap configFileMap = new ExeConfigurationFileMap();
@@ -351,7 +394,8 @@ namespace NetscalerOTPAdmin
                 string prefix = generateRandomString(10);
                 string suffix = generateRandomString(10);
 
-                if ((cbChangePwd.Checked) && (!String.IsNullOrEmpty(tbMasterPwd.Text))) {
+                if ((cbChangePwd.Checked) && (!String.IsNullOrEmpty(tbMasterPwd.Text)))
+                {
                     AddSetting(settings, "MPwd", prefix + MPHash + suffix);
                 }
                 if ((String.IsNullOrEmpty(MasterPasswd)) && (!String.IsNullOrEmpty(tbMasterPwd.Text)))
@@ -373,6 +417,23 @@ namespace NetscalerOTPAdmin
                 AddSetting(settings, "OTPDefaultDescription", tbOTPDescription.Text);
                 AddSetting(settings, "OTPAccountDesciption", tbOTPAccountDesc.Text);
 
+                if (cbOTPEncrypt.Checked)
+                {
+                    AddSetting(settings, "OTPEncrypt", "1");
+                    AddSetting(settings, "OTPCertificate", OTPCertificate);
+                    AddSetting(settings, "OTPPrivateKey", OTPPrivateKey);
+                }
+                else
+                {
+                    AddSetting(settings, "OTPEncrypt", "0");
+                    AddSetting(settings, "OTPCertificate", "");
+                    AddSetting(settings, "OTPPrivateKey", "");
+                }
+
+
+
+
+
 
                 if (cbEmailConfig.Checked)
                 {
@@ -382,10 +443,10 @@ namespace NetscalerOTPAdmin
                 {
                     AddSetting(settings, "UseEmail", "1");
                 }
-              
+
                 AddSetting(settings, "SMTPServer", tbSMTPServer.Text);
                 AddSetting(settings, "SMTPPort", tbSMTPPort.Text);
-                
+
 
                 string smtpuserenc = SimmetricAES.EncryptString(tbSMTPUsername.Text);
                 AddSetting(settings, "SMTPUsername", smtpuserenc);
@@ -402,11 +463,12 @@ namespace NetscalerOTPAdmin
                     AddSetting(settings, "SMTPSSL", "0");
                 }
 
-                string smtpfromenc = SimmetricAES.EncryptString(tbSMTPFrom.Text);                                       
+                string smtpfromenc = SimmetricAES.EncryptString(tbSMTPFrom.Text);
                 AddSetting(settings, "SMTPFrom", smtpfromenc);
                 AddSetting(settings, "SMTPSubject", tbSMTPSubject.Text);
 
-                if (cbSMTPTemplate.SelectedItem != null) {
+                if (cbSMTPTemplate.SelectedItem != null)
+                {
                     AddSetting(settings, "EmailTemplate", cbSMTPTemplate.Items[cbSMTPTemplate.SelectedIndex].ToString());
                 }
                 else
@@ -414,7 +476,9 @@ namespace NetscalerOTPAdmin
                     AddSetting(settings, "EmailTemplate", "emailTemplate.md");
                 }
 
-                if (checkValues()) {
+
+                if (checkValues())
+                {
 
                     configFile.Save(ConfigurationSaveMode.Modified);
                     ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
@@ -443,7 +507,8 @@ namespace NetscalerOTPAdmin
 
         private void tbDomain_TextChanged(object sender, EventArgs e)
         {
-            if (!(String.IsNullOrEmpty(tbDomain.Text))){
+            if (!(String.IsNullOrEmpty(tbDomain.Text)))
+            {
                 string tmp = tbDomain.Text;
                 string[] arrtmp = tmp.Split('.');
                 string dn = "";
@@ -451,9 +516,96 @@ namespace NetscalerOTPAdmin
                 {
                     dn = dn + ", DC=" + r;
                 }
-                dn= dn.Substring(1);
+                dn = dn.Substring(1);
                 tbBaseDN.Text = dn.Trim();
             }
+        }
+
+
+
+
+
+        private void cbOTPEncrypt_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbOTPEncrypt.Checked)
+            {
+                btnSelectCertificate.Enabled = true;
+                btnSelectPrivateKey.Enabled = true;
+            }
+            else
+            {
+                btnSelectCertificate.Enabled = false;
+                btnSelectPrivateKey.Enabled = false;
+            }
+        }
+
+        private void btnSelectCertificate_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileCert = new OpenFileDialog();
+            if (openFileCert.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    var filePath = openFileCert.FileName;
+                    string fileName = System.IO.Path.GetFileName(filePath);
+                    lblCertificate.Text = fileName;
+
+                    OTPCertificate = fileName;
+
+                    // Ensure the destination directory exists
+                    string destinationDirectory = Path.GetDirectoryName(userAppDir);
+                    if (!Directory.Exists(destinationDirectory))
+                    {
+                        Directory.CreateDirectory(destinationDirectory);
+                    }
+
+                    // Copy the file and overwrite if it already exists
+                    File.Copy(filePath, destinationDirectory + "\\" + fileName, true);
+                }
+                catch (SecurityException ex)
+                {
+                    MessageBox.Show($"Security error.\n\nError message: {ex.Message}\n\nDetails:\n\n{ex.StackTrace}");
+                }
+            }
+            openFileCert.Dispose();
+        }
+
+
+        private void btnSelectPrivateKey_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileKey = new OpenFileDialog();
+            if (openFileKey.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    var filePath = openFileKey.FileName;
+                    string fileName = System.IO.Path.GetFileName(filePath);
+                    lblPrivateKey.Text = fileName;
+
+                    OTPPrivateKey = fileName;
+
+                    // Ensure the destination directory exists
+                    string destinationDirectory = Path.GetDirectoryName(userAppDir);
+                    if (!Directory.Exists(destinationDirectory))
+                    {
+                        Directory.CreateDirectory(destinationDirectory);
+                    }
+
+                    // Copy the file and overwrite if it already exists
+                    File.Copy(filePath, destinationDirectory + "\\" + fileName, true);
+                }
+                catch (SecurityException ex)
+                {
+                    MessageBox.Show($"Security error.\n\nError message: {ex.Message}\n\nDetails:\n\n{ex.StackTrace}");
+                }
+            }
+            openFileKey.Dispose();
+
+        }
+
+        private void lblOTPEncryptMessage_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://docs.netscaler.com/en-us/citrix-adc/current-release/aaa-tm/authentication-methods/native-otp-authentication/otp-encryption-tool#otp-secret-data-in-encrypted-format");
         }
     }
 }

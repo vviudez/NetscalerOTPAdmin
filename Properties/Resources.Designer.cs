@@ -69,5 +69,14 @@ namespace NetscalerOTPAdmin.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Seed save completed!.
+        /// </summary>
+        internal static string seed_save_completed {
+            get {
+                return ResourceManager.GetString("seed_save_completed", resourceCulture);
+            }
+        }
     }
 }

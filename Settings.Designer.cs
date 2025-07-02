@@ -28,610 +28,715 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.tbLDAPServer = new System.Windows.Forms.TextBox();
-            this.tbUsername = new System.Windows.Forms.TextBox();
-            this.tbPassword = new System.Windows.Forms.TextBox();
-            this.tbDomain = new System.Windows.Forms.TextBox();
-            this.bntOKSettings = new System.Windows.Forms.Button();
-            this.btnCloseSettings = new System.Windows.Forms.Button();
-            this.gbLDAP = new System.Windows.Forms.GroupBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.tbBaseDN = new System.Windows.Forms.TextBox();
-            this.lblEnc = new System.Windows.Forms.Label();
-            this.cbLDAPSecurity = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.gbOTP = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.tbOTPAccountDesc = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tbOTPDescription = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.tbOTPAttribute = new System.Windows.Forms.TextBox();
-            this.lbOTPAttribute = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbEmailConfig = new System.Windows.Forms.CheckBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.tbSMTPSubject = new System.Windows.Forms.TextBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.cbSMTPTemplate = new System.Windows.Forms.ComboBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.cbSMTPSSL = new System.Windows.Forms.CheckBox();
-            this.tbSMTPPort = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.tbSMTPServer = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.tbSMTPFrom = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.tbSMTPPassword = new System.Windows.Forms.TextBox();
-            this.tbSMTPUsername = new System.Windows.Forms.TextBox();
-            this.gpApplication = new System.Windows.Forms.GroupBox();
-            this.cbChangePwd = new System.Windows.Forms.CheckBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.tbMasterPwd = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.gbLDAP.SuspendLayout();
-            this.gbOTP.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.gpApplication.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
+            tbLDAPServer = new System.Windows.Forms.TextBox();
+            tbUsername = new System.Windows.Forms.TextBox();
+            tbPassword = new System.Windows.Forms.TextBox();
+            tbDomain = new System.Windows.Forms.TextBox();
+            bntOKSettings = new System.Windows.Forms.Button();
+            btnCloseSettings = new System.Windows.Forms.Button();
+            gbLDAP = new System.Windows.Forms.GroupBox();
+            label24 = new System.Windows.Forms.Label();
+            label23 = new System.Windows.Forms.Label();
+            tbBaseDN = new System.Windows.Forms.TextBox();
+            lblEnc = new System.Windows.Forms.Label();
+            cbLDAPSecurity = new System.Windows.Forms.ComboBox();
+            label9 = new System.Windows.Forms.Label();
+            label8 = new System.Windows.Forms.Label();
+            label7 = new System.Windows.Forms.Label();
+            gbOTP = new System.Windows.Forms.GroupBox();
+            lblPrivateKey = new System.Windows.Forms.Label();
+            btnSelectPrivateKey = new System.Windows.Forms.Button();
+            lblCertificate = new System.Windows.Forms.Label();
+            btnSelectCertificate = new System.Windows.Forms.Button();
+            label27 = new System.Windows.Forms.Label();
+            label26 = new System.Windows.Forms.Label();
+            cbOTPEncrypt = new System.Windows.Forms.CheckBox();
+            label25 = new System.Windows.Forms.Label();
+            label10 = new System.Windows.Forms.Label();
+            tbOTPAccountDesc = new System.Windows.Forms.TextBox();
+            label6 = new System.Windows.Forms.Label();
+            tbOTPDescription = new System.Windows.Forms.TextBox();
+            label5 = new System.Windows.Forms.Label();
+            tbOTPAttribute = new System.Windows.Forms.TextBox();
+            lbOTPAttribute = new System.Windows.Forms.Label();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            cbEmailConfig = new System.Windows.Forms.CheckBox();
+            label20 = new System.Windows.Forms.Label();
+            label19 = new System.Windows.Forms.Label();
+            label15 = new System.Windows.Forms.Label();
+            tbSMTPSubject = new System.Windows.Forms.TextBox();
+            label18 = new System.Windows.Forms.Label();
+            cbSMTPTemplate = new System.Windows.Forms.ComboBox();
+            label17 = new System.Windows.Forms.Label();
+            cbSMTPSSL = new System.Windows.Forms.CheckBox();
+            tbSMTPPort = new System.Windows.Forms.TextBox();
+            label16 = new System.Windows.Forms.Label();
+            tbSMTPServer = new System.Windows.Forms.TextBox();
+            label11 = new System.Windows.Forms.Label();
+            label12 = new System.Windows.Forms.Label();
+            label13 = new System.Windows.Forms.Label();
+            tbSMTPFrom = new System.Windows.Forms.TextBox();
+            label14 = new System.Windows.Forms.Label();
+            tbSMTPPassword = new System.Windows.Forms.TextBox();
+            tbSMTPUsername = new System.Windows.Forms.TextBox();
+            gpApplication = new System.Windows.Forms.GroupBox();
+            cbChangePwd = new System.Windows.Forms.CheckBox();
+            label21 = new System.Windows.Forms.Label();
+            tbMasterPwd = new System.Windows.Forms.TextBox();
+            label22 = new System.Windows.Forms.Label();
+            toolTip1 = new System.Windows.Forms.ToolTip(components);
+            lblOTPEncryptMessage = new System.Windows.Forms.Label();
+            gbLDAP.SuspendLayout();
+            gbOTP.SuspendLayout();
+            groupBox1.SuspendLayout();
+            gpApplication.SuspendLayout();
+            SuspendLayout();
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 43);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 15);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "LDAP Server";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(9, 43);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(75, 15);
+            label1.TabIndex = 0;
+            label1.Text = "LDAP Server";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 177);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 15);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Username";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(10, 177);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(63, 15);
+            label2.TabIndex = 1;
+            label2.Text = "Username";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 209);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 15);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Password";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(10, 209);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(59, 15);
+            label3.TabIndex = 2;
+            label3.Text = "Password";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 109);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 15);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Domain";
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(10, 109);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(49, 15);
+            label4.TabIndex = 3;
+            label4.Text = "Domain";
             // 
             // tbLDAPServer
             // 
-            this.tbLDAPServer.Location = new System.Drawing.Point(103, 36);
-            this.tbLDAPServer.Name = "tbLDAPServer";
-            this.tbLDAPServer.Size = new System.Drawing.Size(341, 23);
-            this.tbLDAPServer.TabIndex = 1;
+            tbLDAPServer.Location = new System.Drawing.Point(103, 36);
+            tbLDAPServer.Name = "tbLDAPServer";
+            tbLDAPServer.Size = new System.Drawing.Size(341, 23);
+            tbLDAPServer.TabIndex = 1;
             // 
             // tbUsername
             // 
-            this.tbUsername.Location = new System.Drawing.Point(104, 174);
-            this.tbUsername.Name = "tbUsername";
-            this.tbUsername.Size = new System.Drawing.Size(341, 23);
-            this.tbUsername.TabIndex = 5;
+            tbUsername.Location = new System.Drawing.Point(104, 174);
+            tbUsername.Name = "tbUsername";
+            tbUsername.Size = new System.Drawing.Size(341, 23);
+            tbUsername.TabIndex = 5;
             // 
             // tbPassword
             // 
-            this.tbPassword.Location = new System.Drawing.Point(103, 209);
-            this.tbPassword.Name = "tbPassword";
-            this.tbPassword.Size = new System.Drawing.Size(341, 23);
-            this.tbPassword.TabIndex = 6;
-            this.tbPassword.UseSystemPasswordChar = true;
+            tbPassword.Location = new System.Drawing.Point(103, 209);
+            tbPassword.Name = "tbPassword";
+            tbPassword.Size = new System.Drawing.Size(341, 23);
+            tbPassword.TabIndex = 6;
+            tbPassword.UseSystemPasswordChar = true;
             // 
             // tbDomain
             // 
-            this.tbDomain.Location = new System.Drawing.Point(104, 105);
-            this.tbDomain.Name = "tbDomain";
-            this.tbDomain.Size = new System.Drawing.Size(341, 23);
-            this.tbDomain.TabIndex = 3;
-            this.tbDomain.TextChanged += new System.EventHandler(this.tbDomain_TextChanged);
+            tbDomain.Location = new System.Drawing.Point(104, 105);
+            tbDomain.Name = "tbDomain";
+            tbDomain.Size = new System.Drawing.Size(341, 23);
+            tbDomain.TabIndex = 3;
+            tbDomain.TextChanged += tbDomain_TextChanged;
             // 
             // bntOKSettings
             // 
-            this.bntOKSettings.Location = new System.Drawing.Point(844, 477);
-            this.bntOKSettings.Name = "bntOKSettings";
-            this.bntOKSettings.Size = new System.Drawing.Size(87, 37);
-            this.bntOKSettings.TabIndex = 20;
-            this.bntOKSettings.Text = "&Ok";
-            this.bntOKSettings.UseVisualStyleBackColor = true;
-            this.bntOKSettings.Click += new System.EventHandler(this.bntOK_Click);
+            bntOKSettings.Location = new System.Drawing.Point(844, 553);
+            bntOKSettings.Name = "bntOKSettings";
+            bntOKSettings.Size = new System.Drawing.Size(87, 37);
+            bntOKSettings.TabIndex = 20;
+            bntOKSettings.Text = "&Ok";
+            bntOKSettings.UseVisualStyleBackColor = true;
+            bntOKSettings.Click += bntOK_Click;
             // 
             // btnCloseSettings
             // 
-            this.btnCloseSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnCloseSettings.Location = new System.Drawing.Point(950, 477);
-            this.btnCloseSettings.Name = "btnCloseSettings";
-            this.btnCloseSettings.Size = new System.Drawing.Size(87, 37);
-            this.btnCloseSettings.TabIndex = 21;
-            this.btnCloseSettings.Text = "&Close";
-            this.btnCloseSettings.UseVisualStyleBackColor = false;
-            this.btnCloseSettings.Click += new System.EventHandler(this.btnCancel_Click);
+            btnCloseSettings.BackColor = System.Drawing.Color.FromArgb(255, 192, 192);
+            btnCloseSettings.Location = new System.Drawing.Point(950, 553);
+            btnCloseSettings.Name = "btnCloseSettings";
+            btnCloseSettings.Size = new System.Drawing.Size(87, 37);
+            btnCloseSettings.TabIndex = 21;
+            btnCloseSettings.Text = "&Close";
+            btnCloseSettings.UseVisualStyleBackColor = false;
+            btnCloseSettings.Click += btnCancel_Click;
             // 
             // gbLDAP
             // 
-            this.gbLDAP.Controls.Add(this.label24);
-            this.gbLDAP.Controls.Add(this.label23);
-            this.gbLDAP.Controls.Add(this.tbBaseDN);
-            this.gbLDAP.Controls.Add(this.lblEnc);
-            this.gbLDAP.Controls.Add(this.cbLDAPSecurity);
-            this.gbLDAP.Controls.Add(this.label9);
-            this.gbLDAP.Controls.Add(this.label8);
-            this.gbLDAP.Controls.Add(this.label7);
-            this.gbLDAP.Controls.Add(this.tbLDAPServer);
-            this.gbLDAP.Controls.Add(this.label1);
-            this.gbLDAP.Controls.Add(this.label2);
-            this.gbLDAP.Controls.Add(this.label3);
-            this.gbLDAP.Controls.Add(this.tbDomain);
-            this.gbLDAP.Controls.Add(this.label4);
-            this.gbLDAP.Controls.Add(this.tbPassword);
-            this.gbLDAP.Controls.Add(this.tbUsername);
-            this.gbLDAP.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbLDAP.Location = new System.Drawing.Point(14, 14);
-            this.gbLDAP.Name = "gbLDAP";
-            this.gbLDAP.Size = new System.Drawing.Size(486, 259);
-            this.gbLDAP.TabIndex = 11;
-            this.gbLDAP.TabStop = false;
-            this.gbLDAP.Text = "LDAP Config";
+            gbLDAP.Controls.Add(label24);
+            gbLDAP.Controls.Add(label23);
+            gbLDAP.Controls.Add(tbBaseDN);
+            gbLDAP.Controls.Add(lblEnc);
+            gbLDAP.Controls.Add(cbLDAPSecurity);
+            gbLDAP.Controls.Add(label9);
+            gbLDAP.Controls.Add(label8);
+            gbLDAP.Controls.Add(label7);
+            gbLDAP.Controls.Add(tbLDAPServer);
+            gbLDAP.Controls.Add(label1);
+            gbLDAP.Controls.Add(label2);
+            gbLDAP.Controls.Add(label3);
+            gbLDAP.Controls.Add(tbDomain);
+            gbLDAP.Controls.Add(label4);
+            gbLDAP.Controls.Add(tbPassword);
+            gbLDAP.Controls.Add(tbUsername);
+            gbLDAP.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            gbLDAP.Location = new System.Drawing.Point(14, 14);
+            gbLDAP.Name = "gbLDAP";
+            gbLDAP.Size = new System.Drawing.Size(486, 259);
+            gbLDAP.TabIndex = 11;
+            gbLDAP.TabStop = false;
+            gbLDAP.Text = "LDAP Config";
             // 
             // label24
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(450, 109);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(13, 15);
-            this.label24.TabIndex = 18;
-            this.label24.Text = "*";
+            label24.AutoSize = true;
+            label24.Location = new System.Drawing.Point(450, 109);
+            label24.Name = "label24";
+            label24.Size = new System.Drawing.Size(13, 15);
+            label24.TabIndex = 18;
+            label24.Text = "*";
             // 
             // label23
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(9, 144);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(52, 15);
-            this.label23.TabIndex = 17;
-            this.label23.Text = "Base DN";
+            label23.AutoSize = true;
+            label23.Location = new System.Drawing.Point(9, 144);
+            label23.Name = "label23";
+            label23.Size = new System.Drawing.Size(52, 15);
+            label23.TabIndex = 17;
+            label23.Text = "Base DN";
             // 
             // tbBaseDN
             // 
-            this.tbBaseDN.Location = new System.Drawing.Point(103, 140);
-            this.tbBaseDN.Name = "tbBaseDN";
-            this.tbBaseDN.Size = new System.Drawing.Size(340, 23);
-            this.tbBaseDN.TabIndex = 4;
+            tbBaseDN.Location = new System.Drawing.Point(103, 140);
+            tbBaseDN.Name = "tbBaseDN";
+            tbBaseDN.Size = new System.Drawing.Size(340, 23);
+            tbBaseDN.TabIndex = 4;
             // 
             // lblEnc
             // 
-            this.lblEnc.AutoSize = true;
-            this.lblEnc.Location = new System.Drawing.Point(9, 74);
-            this.lblEnc.Name = "lblEnc";
-            this.lblEnc.Size = new System.Drawing.Size(53, 15);
-            this.lblEnc.TabIndex = 15;
-            this.lblEnc.Text = "Protocol";
+            lblEnc.AutoSize = true;
+            lblEnc.Location = new System.Drawing.Point(9, 74);
+            lblEnc.Name = "lblEnc";
+            lblEnc.Size = new System.Drawing.Size(53, 15);
+            lblEnc.TabIndex = 15;
+            lblEnc.Text = "Protocol";
             // 
             // cbLDAPSecurity
             // 
-            this.cbLDAPSecurity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLDAPSecurity.FormattingEnabled = true;
-            this.cbLDAPSecurity.Items.AddRange(new object[] {
-            "Unencrypted",
-            "SSL",
-            "TLS"});
-            this.cbLDAPSecurity.Location = new System.Drawing.Point(104, 70);
-            this.cbLDAPSecurity.Name = "cbLDAPSecurity";
-            this.cbLDAPSecurity.Size = new System.Drawing.Size(105, 23);
-            this.cbLDAPSecurity.TabIndex = 2;
-            this.toolTip1.SetToolTip(this.cbLDAPSecurity, "Select encryption method to access LDAP servers");
+            cbLDAPSecurity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbLDAPSecurity.FormattingEnabled = true;
+            cbLDAPSecurity.Items.AddRange(new object[] { "Unencrypted", "SSL", "TLS" });
+            cbLDAPSecurity.Location = new System.Drawing.Point(104, 70);
+            cbLDAPSecurity.Name = "cbLDAPSecurity";
+            cbLDAPSecurity.Size = new System.Drawing.Size(105, 23);
+            cbLDAPSecurity.TabIndex = 2;
+            toolTip1.SetToolTip(cbLDAPSecurity, "Select encryption method to access LDAP servers");
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(450, 214);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(13, 15);
-            this.label9.TabIndex = 13;
-            this.label9.Text = "*";
+            label9.AutoSize = true;
+            label9.Location = new System.Drawing.Point(450, 214);
+            label9.Name = "label9";
+            label9.Size = new System.Drawing.Size(13, 15);
+            label9.TabIndex = 13;
+            label9.Text = "*";
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(451, 180);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(13, 15);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "*";
+            label8.AutoSize = true;
+            label8.Location = new System.Drawing.Point(451, 180);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(13, 15);
+            label8.TabIndex = 12;
+            label8.Text = "*";
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(450, 43);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(13, 15);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "*";
+            label7.AutoSize = true;
+            label7.Location = new System.Drawing.Point(450, 43);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(13, 15);
+            label7.TabIndex = 11;
+            label7.Text = "*";
             // 
             // gbOTP
             // 
-            this.gbOTP.Controls.Add(this.label10);
-            this.gbOTP.Controls.Add(this.tbOTPAccountDesc);
-            this.gbOTP.Controls.Add(this.label6);
-            this.gbOTP.Controls.Add(this.tbOTPDescription);
-            this.gbOTP.Controls.Add(this.label5);
-            this.gbOTP.Controls.Add(this.tbOTPAttribute);
-            this.gbOTP.Controls.Add(this.lbOTPAttribute);
-            this.gbOTP.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbOTP.Location = new System.Drawing.Point(14, 279);
-            this.gbOTP.Name = "gbOTP";
-            this.gbOTP.Size = new System.Drawing.Size(486, 155);
-            this.gbOTP.TabIndex = 12;
-            this.gbOTP.TabStop = false;
-            this.gbOTP.Text = "OTP Config";
+            gbOTP.Controls.Add(lblOTPEncryptMessage);
+            gbOTP.Controls.Add(lblPrivateKey);
+            gbOTP.Controls.Add(btnSelectPrivateKey);
+            gbOTP.Controls.Add(lblCertificate);
+            gbOTP.Controls.Add(btnSelectCertificate);
+            gbOTP.Controls.Add(label27);
+            gbOTP.Controls.Add(label26);
+            gbOTP.Controls.Add(cbOTPEncrypt);
+            gbOTP.Controls.Add(label25);
+            gbOTP.Controls.Add(label10);
+            gbOTP.Controls.Add(tbOTPAccountDesc);
+            gbOTP.Controls.Add(label6);
+            gbOTP.Controls.Add(tbOTPDescription);
+            gbOTP.Controls.Add(label5);
+            gbOTP.Controls.Add(tbOTPAttribute);
+            gbOTP.Controls.Add(lbOTPAttribute);
+            gbOTP.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            gbOTP.Location = new System.Drawing.Point(14, 279);
+            gbOTP.Name = "gbOTP";
+            gbOTP.Size = new System.Drawing.Size(486, 293);
+            gbOTP.TabIndex = 12;
+            gbOTP.TabStop = false;
+            gbOTP.Text = "OTP Config";
+            // 
+            // lblPrivateKey
+            // 
+            lblPrivateKey.AutoSize = true;
+            lblPrivateKey.Location = new System.Drawing.Point(235, 261);
+            lblPrivateKey.Name = "lblPrivateKey";
+            lblPrivateKey.Size = new System.Drawing.Size(16, 15);
+            lblPrivateKey.TabIndex = 22;
+            lblPrivateKey.Text = "...";
+            // 
+            // btnSelectPrivateKey
+            // 
+            btnSelectPrivateKey.Enabled = false;
+            btnSelectPrivateKey.Location = new System.Drawing.Point(153, 256);
+            btnSelectPrivateKey.Name = "btnSelectPrivateKey";
+            btnSelectPrivateKey.Size = new System.Drawing.Size(75, 23);
+            btnSelectPrivateKey.TabIndex = 21;
+            btnSelectPrivateKey.Text = "Select File";
+            btnSelectPrivateKey.UseVisualStyleBackColor = true;
+            btnSelectPrivateKey.Click += btnSelectPrivateKey_Click;
+            // 
+            // lblCertificate
+            // 
+            lblCertificate.AutoSize = true;
+            lblCertificate.Location = new System.Drawing.Point(235, 227);
+            lblCertificate.Name = "lblCertificate";
+            lblCertificate.Size = new System.Drawing.Size(16, 15);
+            lblCertificate.TabIndex = 20;
+            lblCertificate.Text = "...";
+            // 
+            // btnSelectCertificate
+            // 
+            btnSelectCertificate.Enabled = false;
+            btnSelectCertificate.Location = new System.Drawing.Point(153, 224);
+            btnSelectCertificate.Name = "btnSelectCertificate";
+            btnSelectCertificate.Size = new System.Drawing.Size(75, 23);
+            btnSelectCertificate.TabIndex = 19;
+            btnSelectCertificate.Text = "Select File";
+            btnSelectCertificate.UseVisualStyleBackColor = true;
+            btnSelectCertificate.Click += btnSelectCertificate_Click;
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Location = new System.Drawing.Point(10, 258);
+            label27.Name = "label27";
+            label27.Size = new System.Drawing.Size(130, 15);
+            label27.TabIndex = 18;
+            label27.Text = "Encryption Private Key";
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Location = new System.Drawing.Point(10, 227);
+            label26.Name = "label26";
+            label26.Size = new System.Drawing.Size(125, 15);
+            label26.TabIndex = 17;
+            label26.Text = "Encryption Certificate";
+            // 
+            // cbOTPEncrypt
+            // 
+            cbOTPEncrypt.AutoSize = true;
+            cbOTPEncrypt.Enabled = false;
+            cbOTPEncrypt.Location = new System.Drawing.Point(113, 196);
+            cbOTPEncrypt.Name = "cbOTPEncrypt";
+            cbOTPEncrypt.Size = new System.Drawing.Size(15, 14);
+            cbOTPEncrypt.TabIndex = 16;
+            cbOTPEncrypt.UseVisualStyleBackColor = true;
+            cbOTPEncrypt.CheckedChanged += cbOTPEncrypt_CheckedChanged;
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Location = new System.Drawing.Point(9, 194);
+            label25.Name = "label25";
+            label25.Size = new System.Drawing.Size(90, 15);
+            label25.TabIndex = 15;
+            label25.Text = "OTP Encryption";
             // 
             // label10
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(450, 44);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(13, 15);
-            this.label10.TabIndex = 14;
-            this.label10.Text = "*";
+            label10.AutoSize = true;
+            label10.Location = new System.Drawing.Point(450, 44);
+            label10.Name = "label10";
+            label10.Size = new System.Drawing.Size(13, 15);
+            label10.TabIndex = 14;
+            label10.Text = "*";
             // 
             // tbOTPAccountDesc
             // 
-            this.tbOTPAccountDesc.Location = new System.Drawing.Point(114, 111);
-            this.tbOTPAccountDesc.Name = "tbOTPAccountDesc";
-            this.tbOTPAccountDesc.Size = new System.Drawing.Size(330, 23);
-            this.tbOTPAccountDesc.TabIndex = 9;
-            this.tbOTPAccountDesc.Text = "Web OTP Access";
+            tbOTPAccountDesc.Location = new System.Drawing.Point(114, 111);
+            tbOTPAccountDesc.Name = "tbOTPAccountDesc";
+            tbOTPAccountDesc.Size = new System.Drawing.Size(330, 23);
+            tbOTPAccountDesc.TabIndex = 9;
+            tbOTPAccountDesc.Text = "Web OTP Access";
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 115);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(86, 15);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "Account Issuer";
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(9, 115);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(86, 15);
+            label6.TabIndex = 11;
+            label6.Text = "Account Issuer";
             // 
             // tbOTPDescription
             // 
-            this.tbOTPDescription.Location = new System.Drawing.Point(114, 72);
-            this.tbOTPDescription.Name = "tbOTPDescription";
-            this.tbOTPDescription.Size = new System.Drawing.Size(330, 23);
-            this.tbOTPDescription.TabIndex = 8;
-            this.tbOTPDescription.Text = "OTP";
+            tbOTPDescription.Location = new System.Drawing.Point(114, 72);
+            tbOTPDescription.Name = "tbOTPDescription";
+            tbOTPDescription.Size = new System.Drawing.Size(330, 23);
+            tbOTPDescription.TabIndex = 8;
+            tbOTPDescription.Text = "OTP";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 76);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(103, 15);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Def. Device Name";
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(9, 76);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(103, 15);
+            label5.TabIndex = 9;
+            label5.Text = "Def. Device Name";
             // 
             // tbOTPAttribute
             // 
-            this.tbOTPAttribute.Location = new System.Drawing.Point(114, 36);
-            this.tbOTPAttribute.Name = "tbOTPAttribute";
-            this.tbOTPAttribute.Size = new System.Drawing.Size(330, 23);
-            this.tbOTPAttribute.TabIndex = 7;
-            this.tbOTPAttribute.Text = "userParameters";
+            tbOTPAttribute.Location = new System.Drawing.Point(114, 36);
+            tbOTPAttribute.Name = "tbOTPAttribute";
+            tbOTPAttribute.Size = new System.Drawing.Size(330, 23);
+            tbOTPAttribute.TabIndex = 7;
+            tbOTPAttribute.Text = "userParameters";
             // 
             // lbOTPAttribute
             // 
-            this.lbOTPAttribute.AutoSize = true;
-            this.lbOTPAttribute.Location = new System.Drawing.Point(9, 39);
-            this.lbOTPAttribute.Name = "lbOTPAttribute";
-            this.lbOTPAttribute.Size = new System.Drawing.Size(83, 15);
-            this.lbOTPAttribute.TabIndex = 4;
-            this.lbOTPAttribute.Text = "OTP Attribute";
+            lbOTPAttribute.AutoSize = true;
+            lbOTPAttribute.Location = new System.Drawing.Point(9, 39);
+            lbOTPAttribute.Name = "lbOTPAttribute";
+            lbOTPAttribute.Size = new System.Drawing.Size(83, 15);
+            lbOTPAttribute.TabIndex = 4;
+            lbOTPAttribute.Text = "OTP Attribute";
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.cbEmailConfig);
-            this.groupBox1.Controls.Add(this.label20);
-            this.groupBox1.Controls.Add(this.label19);
-            this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.tbSMTPSubject);
-            this.groupBox1.Controls.Add(this.label18);
-            this.groupBox1.Controls.Add(this.cbSMTPTemplate);
-            this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.cbSMTPSSL);
-            this.groupBox1.Controls.Add(this.tbSMTPPort);
-            this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.tbSMTPServer);
-            this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.label12);
-            this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Controls.Add(this.tbSMTPFrom);
-            this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.tbSMTPPassword);
-            this.groupBox1.Controls.Add(this.tbSMTPUsername);
-            this.groupBox1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(519, 14);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(518, 325);
-            this.groupBox1.TabIndex = 13;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Email Config";
+            groupBox1.Controls.Add(cbEmailConfig);
+            groupBox1.Controls.Add(label20);
+            groupBox1.Controls.Add(label19);
+            groupBox1.Controls.Add(label15);
+            groupBox1.Controls.Add(tbSMTPSubject);
+            groupBox1.Controls.Add(label18);
+            groupBox1.Controls.Add(cbSMTPTemplate);
+            groupBox1.Controls.Add(label17);
+            groupBox1.Controls.Add(cbSMTPSSL);
+            groupBox1.Controls.Add(tbSMTPPort);
+            groupBox1.Controls.Add(label16);
+            groupBox1.Controls.Add(tbSMTPServer);
+            groupBox1.Controls.Add(label11);
+            groupBox1.Controls.Add(label12);
+            groupBox1.Controls.Add(label13);
+            groupBox1.Controls.Add(tbSMTPFrom);
+            groupBox1.Controls.Add(label14);
+            groupBox1.Controls.Add(tbSMTPPassword);
+            groupBox1.Controls.Add(tbSMTPUsername);
+            groupBox1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            groupBox1.Location = new System.Drawing.Point(519, 14);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new System.Drawing.Size(518, 325);
+            groupBox1.TabIndex = 13;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Email Config";
             // 
             // cbEmailConfig
             // 
-            this.cbEmailConfig.AutoSize = true;
-            this.cbEmailConfig.Location = new System.Drawing.Point(26, 290);
-            this.cbEmailConfig.Name = "cbEmailConfig";
-            this.cbEmailConfig.Size = new System.Drawing.Size(145, 19);
-            this.cbEmailConfig.TabIndex = 17;
-            this.cbEmailConfig.Text = "Don\'t use Email config";
-            this.cbEmailConfig.UseVisualStyleBackColor = true;
-            this.cbEmailConfig.CheckedChanged += new System.EventHandler(this.cbEmailConfig_CheckedChanged);
+            cbEmailConfig.AutoSize = true;
+            cbEmailConfig.Location = new System.Drawing.Point(26, 290);
+            cbEmailConfig.Name = "cbEmailConfig";
+            cbEmailConfig.Size = new System.Drawing.Size(145, 19);
+            cbEmailConfig.TabIndex = 17;
+            cbEmailConfig.Text = "Don't use Email config";
+            cbEmailConfig.UseVisualStyleBackColor = true;
+            cbEmailConfig.CheckedChanged += cbEmailConfig_CheckedChanged;
             // 
             // label20
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(427, 256);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(13, 15);
-            this.label20.TabIndex = 25;
-            this.label20.Text = "*";
+            label20.AutoSize = true;
+            label20.Location = new System.Drawing.Point(427, 256);
+            label20.Name = "label20";
+            label20.Size = new System.Drawing.Size(13, 15);
+            label20.TabIndex = 25;
+            label20.Text = "*";
             // 
             // label19
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(176, 70);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(13, 15);
-            this.label19.TabIndex = 24;
-            this.label19.Text = "*";
+            label19.AutoSize = true;
+            label19.Location = new System.Drawing.Point(176, 70);
+            label19.Name = "label19";
+            label19.Size = new System.Drawing.Size(13, 15);
+            label19.TabIndex = 24;
+            label19.Text = "*";
             // 
             // label15
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(426, 38);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(13, 15);
-            this.label15.TabIndex = 14;
-            this.label15.Text = "*";
+            label15.AutoSize = true;
+            label15.Location = new System.Drawing.Point(426, 38);
+            label15.Name = "label15";
+            label15.Size = new System.Drawing.Size(13, 15);
+            label15.TabIndex = 14;
+            label15.Text = "*";
             // 
             // tbSMTPSubject
             // 
-            this.tbSMTPSubject.Location = new System.Drawing.Point(120, 213);
-            this.tbSMTPSubject.Name = "tbSMTPSubject";
-            this.tbSMTPSubject.Size = new System.Drawing.Size(307, 23);
-            this.tbSMTPSubject.TabIndex = 15;
-            this.tbSMTPSubject.Text = "Your new OTP Token";
+            tbSMTPSubject.Location = new System.Drawing.Point(120, 213);
+            tbSMTPSubject.Name = "tbSMTPSubject";
+            tbSMTPSubject.Size = new System.Drawing.Size(307, 23);
+            tbSMTPSubject.TabIndex = 15;
+            tbSMTPSubject.Text = "Your new OTP Token";
             // 
             // label18
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(23, 217);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(79, 15);
-            this.label18.TabIndex = 22;
-            this.label18.Text = "Email Subject";
+            label18.AutoSize = true;
+            label18.Location = new System.Drawing.Point(23, 217);
+            label18.Name = "label18";
+            label18.Size = new System.Drawing.Size(79, 15);
+            label18.TabIndex = 22;
+            label18.Text = "Email Subject";
             // 
             // cbSMTPTemplate
             // 
-            this.cbSMTPTemplate.FormattingEnabled = true;
-            this.cbSMTPTemplate.Location = new System.Drawing.Point(142, 252);
-            this.cbSMTPTemplate.Name = "cbSMTPTemplate";
-            this.cbSMTPTemplate.Size = new System.Drawing.Size(285, 23);
-            this.cbSMTPTemplate.TabIndex = 16;
+            cbSMTPTemplate.FormattingEnabled = true;
+            cbSMTPTemplate.Location = new System.Drawing.Point(142, 252);
+            cbSMTPTemplate.Name = "cbSMTPTemplate";
+            cbSMTPTemplate.Size = new System.Drawing.Size(285, 23);
+            cbSMTPTemplate.TabIndex = 16;
             // 
             // label17
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(23, 256);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(112, 15);
-            this.label17.TabIndex = 20;
-            this.label17.Text = "Email Template File";
+            label17.AutoSize = true;
+            label17.Location = new System.Drawing.Point(23, 256);
+            label17.Name = "label17";
+            label17.Size = new System.Drawing.Size(112, 15);
+            label17.TabIndex = 20;
+            label17.Text = "Email Template File";
             // 
             // cbSMTPSSL
             // 
-            this.cbSMTPSSL.AutoSize = true;
-            this.cbSMTPSSL.Checked = true;
-            this.cbSMTPSSL.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbSMTPSSL.Location = new System.Drawing.Point(446, 36);
-            this.cbSMTPSSL.Name = "cbSMTPSSL";
-            this.cbSMTPSSL.Size = new System.Drawing.Size(67, 19);
-            this.cbSMTPSSL.TabIndex = 14;
-            this.cbSMTPSSL.Text = "Use SSL";
-            this.cbSMTPSSL.UseVisualStyleBackColor = true;
+            cbSMTPSSL.AutoSize = true;
+            cbSMTPSSL.Checked = true;
+            cbSMTPSSL.CheckState = System.Windows.Forms.CheckState.Checked;
+            cbSMTPSSL.Location = new System.Drawing.Point(446, 36);
+            cbSMTPSSL.Name = "cbSMTPSSL";
+            cbSMTPSSL.Size = new System.Drawing.Size(67, 19);
+            cbSMTPSSL.TabIndex = 14;
+            cbSMTPSSL.Text = "Use SSL";
+            cbSMTPSSL.UseVisualStyleBackColor = true;
             // 
             // tbSMTPPort
             // 
-            this.tbSMTPPort.Location = new System.Drawing.Point(120, 66);
-            this.tbSMTPPort.Name = "tbSMTPPort";
-            this.tbSMTPPort.Size = new System.Drawing.Size(54, 23);
-            this.tbSMTPPort.TabIndex = 11;
-            this.tbSMTPPort.Text = "587";
+            tbSMTPPort.Location = new System.Drawing.Point(120, 66);
+            tbSMTPPort.Name = "tbSMTPPort";
+            tbSMTPPort.Size = new System.Drawing.Size(54, 23);
+            tbSMTPPort.TabIndex = 11;
+            tbSMTPPort.Text = "587";
             // 
             // label16
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(23, 73);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(64, 15);
-            this.label16.TabIndex = 18;
-            this.label16.Text = "SMTP Port";
+            label16.AutoSize = true;
+            label16.Location = new System.Drawing.Point(23, 73);
+            label16.Name = "label16";
+            label16.Size = new System.Drawing.Size(64, 15);
+            label16.TabIndex = 18;
+            label16.Text = "SMTP Port";
             // 
             // tbSMTPServer
             // 
-            this.tbSMTPServer.Location = new System.Drawing.Point(120, 34);
-            this.tbSMTPServer.Name = "tbSMTPServer";
-            this.tbSMTPServer.Size = new System.Drawing.Size(307, 23);
-            this.tbSMTPServer.TabIndex = 10;
-            this.tbSMTPServer.Text = "smtp.gmail.com";
+            tbSMTPServer.Location = new System.Drawing.Point(120, 34);
+            tbSMTPServer.Name = "tbSMTPServer";
+            tbSMTPServer.Size = new System.Drawing.Size(307, 23);
+            tbSMTPServer.TabIndex = 10;
+            tbSMTPServer.Text = "smtp.gmail.com";
             // 
             // label11
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(23, 41);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(76, 15);
-            this.label11.TabIndex = 8;
-            this.label11.Text = "SMTP Server";
+            label11.AutoSize = true;
+            label11.Location = new System.Drawing.Point(23, 41);
+            label11.Name = "label11";
+            label11.Size = new System.Drawing.Size(76, 15);
+            label11.TabIndex = 8;
+            label11.Text = "SMTP Server";
             // 
             // label12
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(23, 103);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(96, 15);
-            this.label12.TabIndex = 9;
-            this.label12.Text = "SMTP Username";
+            label12.AutoSize = true;
+            label12.Location = new System.Drawing.Point(23, 103);
+            label12.Name = "label12";
+            label12.Size = new System.Drawing.Size(96, 15);
+            label12.TabIndex = 9;
+            label12.Text = "SMTP Username";
             // 
             // label13
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(23, 137);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(92, 15);
-            this.label13.TabIndex = 10;
-            this.label13.Text = "SMTP Password";
+            label13.AutoSize = true;
+            label13.Location = new System.Drawing.Point(23, 137);
+            label13.Name = "label13";
+            label13.Size = new System.Drawing.Size(92, 15);
+            label13.TabIndex = 10;
+            label13.Text = "SMTP Password";
             // 
             // tbSMTPFrom
             // 
-            this.tbSMTPFrom.Location = new System.Drawing.Point(120, 179);
-            this.tbSMTPFrom.Name = "tbSMTPFrom";
-            this.tbSMTPFrom.Size = new System.Drawing.Size(307, 23);
-            this.tbSMTPFrom.TabIndex = 14;
-            this.tbSMTPFrom.Text = "userfrom@domain.com";
+            tbSMTPFrom.Location = new System.Drawing.Point(120, 179);
+            tbSMTPFrom.Name = "tbSMTPFrom";
+            tbSMTPFrom.Size = new System.Drawing.Size(307, 23);
+            tbSMTPFrom.TabIndex = 14;
+            tbSMTPFrom.Text = "userfrom@domain.com";
             // 
             // label14
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(23, 183);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(68, 15);
-            this.label14.TabIndex = 11;
-            this.label14.Text = "Email From";
+            label14.AutoSize = true;
+            label14.Location = new System.Drawing.Point(23, 183);
+            label14.Name = "label14";
+            label14.Size = new System.Drawing.Size(68, 15);
+            label14.TabIndex = 11;
+            label14.Text = "Email From";
             // 
             // tbSMTPPassword
             // 
-            this.tbSMTPPassword.Location = new System.Drawing.Point(120, 134);
-            this.tbSMTPPassword.Name = "tbSMTPPassword";
-            this.tbSMTPPassword.Size = new System.Drawing.Size(307, 23);
-            this.tbSMTPPassword.TabIndex = 13;
-            this.tbSMTPPassword.UseSystemPasswordChar = true;
+            tbSMTPPassword.Location = new System.Drawing.Point(120, 134);
+            tbSMTPPassword.Name = "tbSMTPPassword";
+            tbSMTPPassword.Size = new System.Drawing.Size(307, 23);
+            tbSMTPPassword.TabIndex = 13;
+            tbSMTPPassword.UseSystemPasswordChar = true;
             // 
             // tbSMTPUsername
             // 
-            this.tbSMTPUsername.Location = new System.Drawing.Point(120, 100);
-            this.tbSMTPUsername.Name = "tbSMTPUsername";
-            this.tbSMTPUsername.Size = new System.Drawing.Size(307, 23);
-            this.tbSMTPUsername.TabIndex = 12;
+            tbSMTPUsername.Location = new System.Drawing.Point(120, 100);
+            tbSMTPUsername.Name = "tbSMTPUsername";
+            tbSMTPUsername.Size = new System.Drawing.Size(307, 23);
+            tbSMTPUsername.TabIndex = 12;
             // 
             // gpApplication
             // 
-            this.gpApplication.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.gpApplication.Controls.Add(this.cbChangePwd);
-            this.gpApplication.Controls.Add(this.label21);
-            this.gpApplication.Controls.Add(this.tbMasterPwd);
-            this.gpApplication.Controls.Add(this.label22);
-            this.gpApplication.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gpApplication.Location = new System.Drawing.Point(14, 454);
-            this.gpApplication.Name = "gpApplication";
-            this.gpApplication.Size = new System.Drawing.Size(672, 63);
-            this.gpApplication.TabIndex = 14;
-            this.gpApplication.TabStop = false;
-            this.gpApplication.Text = "Application";
+            gpApplication.BackColor = System.Drawing.Color.FromArgb(255, 192, 192);
+            gpApplication.Controls.Add(cbChangePwd);
+            gpApplication.Controls.Add(label21);
+            gpApplication.Controls.Add(tbMasterPwd);
+            gpApplication.Controls.Add(label22);
+            gpApplication.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            gpApplication.Location = new System.Drawing.Point(519, 355);
+            gpApplication.Name = "gpApplication";
+            gpApplication.Size = new System.Drawing.Size(518, 109);
+            gpApplication.TabIndex = 14;
+            gpApplication.TabStop = false;
+            gpApplication.Text = "Application";
             // 
             // cbChangePwd
             // 
-            this.cbChangePwd.AutoSize = true;
-            this.cbChangePwd.Location = new System.Drawing.Point(518, 29);
-            this.cbChangePwd.Name = "cbChangePwd";
-            this.cbChangePwd.Size = new System.Drawing.Size(121, 19);
-            this.cbChangePwd.TabIndex = 19;
-            this.cbChangePwd.Text = "Change Password";
-            this.toolTip1.SetToolTip(this.cbChangePwd, "Check only if you want to change your Master Password");
-            this.cbChangePwd.UseVisualStyleBackColor = true;
+            cbChangePwd.AutoSize = true;
+            cbChangePwd.Location = new System.Drawing.Point(115, 71);
+            cbChangePwd.Name = "cbChangePwd";
+            cbChangePwd.Size = new System.Drawing.Size(121, 19);
+            cbChangePwd.TabIndex = 19;
+            cbChangePwd.Text = "Change Password";
+            toolTip1.SetToolTip(cbChangePwd, "Check only if you want to change your Master Password");
+            cbChangePwd.UseVisualStyleBackColor = true;
             // 
             // label21
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(473, 34);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(13, 15);
-            this.label21.TabIndex = 17;
-            this.label21.Text = "*";
+            label21.AutoSize = true;
+            label21.Location = new System.Drawing.Point(473, 34);
+            label21.Name = "label21";
+            label21.Size = new System.Drawing.Size(13, 15);
+            label21.TabIndex = 17;
+            label21.Text = "*";
             // 
             // tbMasterPwd
             // 
-            this.tbMasterPwd.Location = new System.Drawing.Point(115, 26);
-            this.tbMasterPwd.Name = "tbMasterPwd";
-            this.tbMasterPwd.PasswordChar = '*';
-            this.tbMasterPwd.Size = new System.Drawing.Size(353, 23);
-            this.tbMasterPwd.TabIndex = 18;
+            tbMasterPwd.Location = new System.Drawing.Point(115, 26);
+            tbMasterPwd.Name = "tbMasterPwd";
+            tbMasterPwd.PasswordChar = '*';
+            tbMasterPwd.Size = new System.Drawing.Size(353, 23);
+            tbMasterPwd.TabIndex = 18;
             // 
             // label22
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(9, 29);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(101, 15);
-            this.label22.TabIndex = 15;
-            this.label22.Text = "Master Password";
+            label22.AutoSize = true;
+            label22.Location = new System.Drawing.Point(9, 29);
+            label22.Name = "label22";
+            label22.Size = new System.Drawing.Size(101, 15);
+            label22.TabIndex = 15;
+            label22.Text = "Master Password";
             // 
             // toolTip1
             // 
-            this.toolTip1.AutomaticDelay = 200;
+            toolTip1.AutomaticDelay = 200;
+            // 
+            // lblOTPEncryptMessage
+            // 
+            lblOTPEncryptMessage.AutoSize = true;
+            lblOTPEncryptMessage.ForeColor = System.Drawing.Color.Red;
+            lblOTPEncryptMessage.Location = new System.Drawing.Point(10, 155);
+            lblOTPEncryptMessage.MaximumSize = new System.Drawing.Size(500, 0);
+            lblOTPEncryptMessage.Name = "lblOTPEncryptMessage";
+            lblOTPEncryptMessage.Size = new System.Drawing.Size(404, 30);
+            lblOTPEncryptMessage.TabIndex = 23;
+            lblOTPEncryptMessage.Text = "OTP Encryption is Incompatible until Citrix solves the problem with their OTP_encryption_tool, and how saves OTP info on the user attribute";
+            lblOTPEncryptMessage.Click += lblOTPEncryptMessage_Click;
             // 
             // frmSettings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1052, 529);
-            this.Controls.Add(this.gpApplication);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.gbOTP);
-            this.Controls.Add(this.gbLDAP);
-            this.Controls.Add(this.btnCloseSettings);
-            this.Controls.Add(this.bntOKSettings);
-            this.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "frmSettings";
-            this.Text = "Settings...";
-            this.TopMost = true;
-            this.Load += new System.EventHandler(this.frmSettings_Load);
-            this.gbLDAP.ResumeLayout(false);
-            this.gbLDAP.PerformLayout();
-            this.gbOTP.ResumeLayout(false);
-            this.gbOTP.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.gpApplication.ResumeLayout(false);
-            this.gpApplication.PerformLayout();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(1052, 602);
+            Controls.Add(gpApplication);
+            Controls.Add(groupBox1);
+            Controls.Add(gbOTP);
+            Controls.Add(gbLDAP);
+            Controls.Add(btnCloseSettings);
+            Controls.Add(bntOKSettings);
+            Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            Name = "frmSettings";
+            Text = "Settings...";
+            TopMost = true;
+            Load += frmSettings_Load;
+            gbLDAP.ResumeLayout(false);
+            gbLDAP.PerformLayout();
+            gbOTP.ResumeLayout(false);
+            gbOTP.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            gpApplication.ResumeLayout(false);
+            gpApplication.PerformLayout();
+            ResumeLayout(false);
 
         }
 
@@ -690,5 +795,14 @@
         private System.Windows.Forms.TextBox tbBaseDN;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.CheckBox cbOTPEncrypt;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label lblCertificate;
+        private System.Windows.Forms.Button btnSelectCertificate;
+        private System.Windows.Forms.Label lblPrivateKey;
+        private System.Windows.Forms.Button btnSelectPrivateKey;
+        private System.Windows.Forms.Label lblOTPEncryptMessage;
     }
 }
